@@ -1,0 +1,300 @@
+/* Layout principal */
+.busqueda-container {
+  display: flex;
+  font-family: 'Lato', sans-serif;
+  padding-top: 70px;
+}
+
+/* Sidebar */
+.sidebar {
+  flex: 0 0 300px;
+  padding: 20px;
+  border-right: 1px solid #e0e0e0;
+  background: #fff;
+}
+button.postulado {
+  background: #bdbdbd;
+  color: #fff;
+  cursor: not-allowed;
+}
+button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: #fff;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+button:not(:disabled):hover {
+  background: #1565c0;
+}
+
+.filtro h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer; 
+}
+
+.check-lista {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+
+.check-item {
+  margin-top: 5%;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* separación entre checkbox, texto y cantidad */
+}
+
+.check-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #036E33;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.check-item input[type="checkbox"]:checked {
+  background-color: #036E33;
+}
+
+.check-item label {
+  flex-grow: 1; /* el label ocupe el espacio disponible */
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  cursor: pointer;
+  align-items: center;
+}
+
+
+.cantidad {
+  background: rgba(156, 156, 163, 0.18); /* fondo gris traslúcido */
+  color: #9C9CA3; /* texto gris */
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.cantidad.selected {
+  background: rgba(0, 255, 30, 0.15); /* verde traslúcido */
+  color: #036E33; /* verde oscuro para el texto */
+  font-weight: 700;
+}
+
+
+.flecha {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.flecha::before,
+.flecha::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 10px;
+  background-color: #333;
+  top: 0;
+  transition: transform 0.3s ease;
+}
+
+/* línea izquierda de la V */
+.flecha::before {
+  left: 1px;
+  transform: rotate(-45deg);
+}
+
+/* línea derecha de la V */
+.flecha::after {
+  right: 1px;
+  transform: rotate(45deg);
+}
+
+/* cuando está abierto, girar ambas para mirar hacia arriba */
+.flecha.abierto::before {
+  transform: rotate(45deg);
+}
+
+.flecha.abierto::after {
+  transform: rotate(-45deg);
+}
+
+
+/* Botones */
+.acciones {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.btn.aplicar {
+  background-color: #036E33;
+  color: white;
+}
+
+.btn.limpiar {
+  background-color: #EDEDEE;
+  color: #9C9CA3;
+}
+
+.btn.aplicar:focus,
+.btn.aplicar:active {
+  outline: none;
+  box-shadow: 0 0 0 2px #0B4C28;
+}
+
+.btn.limpiar:focus,
+.btn.limpiar:active {
+  outline: none;
+  box-shadow: 0 0 0 2px #9C9CA3;
+}
+
+/* Contenido */
+.contenido {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Resultados */
+.resultados .resumen {
+  margin: 0 0 10px;
+  font-weight: bold;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  background: #fff;
+  padding: 17px;
+  font-family: 'Lato', sans-serif;
+}
+
+/* Fila 1: Logo y título/empresa */
+.fila-1 {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.logo-empresa {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.titulo-empresa {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.titulo-empresa h3 {
+  margin: 0;
+  font-size: 1rem; /* más pequeño */
+  font-weight: bold;
+  color: #000; /* título en negro */
+}
+
+.titulo-empresa .empresa {
+  font-size: 0.85rem; /* más pequeño */
+  color: #036E33; /* verde oscuro */
+}
+
+/* Fila 2: Ubicación */
+.ubicacion {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top:-6px;
+}
+
+/* Fila 3: Etiquetas (experiencia, modalidad, sueldo) */
+.etiquetas {
+  margin-top:-6px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.etiquetas span {
+  background: #F1F1F1;
+  border-radius: 20px;
+  padding: 4px 10px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+/* Fila 4: Descripción */
+.descripcion {
+  margin-top:10px;
+  color: #555;
+  font-size: 13px;
+}
+
+/* Fila 5: Fecha y botón */
+.fila-5 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fecha {
+  color: #999;
+  font-size: 12px;
+}
+
+.tarjeta button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #036E33;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tarjeta button:hover:not(:disabled) {
+  background-color: #034c25;
+}
+
+.tarjeta button.postulado {
+  background-color: #bdbdbd;
+  color: #fff;
+  cursor: not-allowed;
+}

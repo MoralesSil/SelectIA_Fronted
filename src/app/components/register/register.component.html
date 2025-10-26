@@ -1,0 +1,99 @@
+<div class="modal-overlay">
+  <div class="register-container">
+    <div class="register-left">
+      <h2 class="welcome-title">¡Regístrate aquí!</h2>
+      <div class="register-form">
+        <form [formGroup]="form" (submit)="registrar()">
+
+          <div class="form-group">
+            <label for="nombres">Nombres</label>
+            <input type="text" formControlName="nombres" placeholder="Ingresa tu nombre" maxlength="20" />
+            <mat-error *ngIf="form.get('nombres')?.hasError('required')">
+              Los nombres son obligatorios.
+            </mat-error>
+          </div>
+
+          <div class="form-group">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" formControlName="apellidos" placeholder="Ingresa tus apellidos" maxlength="30" />
+            <mat-error *ngIf="form.get('apellidos')?.hasError('required')">
+              Los apellidos son obligatorios.
+            </mat-error>
+          </div>
+
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="text" formControlName="telefono" placeholder="Número telefónico" maxlength="15" />
+            <mat-error *ngIf="form.get('telefono')?.hasError('required')">
+              El teléfono es obligatorio.
+            </mat-error>
+          </div>
+
+          <div class="form-group">
+            <label for="correo">Correo</label>
+            <input
+              type="text"
+              formControlName="correo"
+              placeholder="@gmail.com"
+              (blur)="autoFillEmailDomain()"
+              maxlength="50"
+            />
+            <mat-error *ngIf="form.get('correo')?.hasError('required')">
+              El correo es obligatorio.
+            </mat-error>
+            <mat-error *ngIf="form.get('correo')?.hasError('email')">
+              Correo inválido.
+            </mat-error>
+          </div>
+
+          <div class="form-group">
+            <label for="contra">Contraseña</label>
+            <div class="password-container">
+              <input
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                formControlName="contra"
+                maxlength="200"
+              />
+              <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+                <mat-icon>{{ isPasswordVisible ? 'visibility' : 'visibility_off' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="form.get('contra')?.hasError('required')">
+                La contraseña es obligatoria.
+              </mat-error>
+              <mat-error *ngIf="form.get('contra')?.hasError('minlength')">
+                Mínimo de 8 caracteres.
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="username">Nombre de usuario</label>
+            <input type="text" formControlName="username" placeholder="Usuario" maxlength="30" />
+            <mat-error *ngIf="form.get('username')?.hasError('required')">
+              El nombre de usuario es obligatorio.
+            </mat-error>
+            <mat-error *ngIf="form.get('username')?.hasError('minlength')">
+              Mínimo de 3 caracteres.
+            </mat-error>
+          </div>
+
+          <button class="btn-register">Registrarse</button>
+        </form>
+      </div>
+
+      <div class="login-message">
+        <p>
+          ¿Tienes cuenta?
+          <a (click)="solicitarInicio.emit()" class="btn-login">Inicia sesión aquí</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="register-right">
+      <img src="assets/img/Registro.png" alt="Imagen de fondo" class="login-image" />
+      <button class="close-btn" (click)="closeRegister()">
+        &times;
+      </button>
+    </div>
+  </div>
+</div>

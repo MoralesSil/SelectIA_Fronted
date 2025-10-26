@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="Titulo-container">
+    <h2>Mis postulaciones</h2>
+  </div>
+
+  <div class="mis-postulaciones">
+    <div *ngIf="postulaciones.length === 0" class="mensaje-vacio">
+      <span class="material-icons icono">hourglass_empty</span>
+      <p>No tienes postulaciones registradas.</p>
+    </div>
+
+    <div *ngFor="let p of paginatedPostulaciones" class="postulacion-card">
+      <!-- Cabecera -->
+      <div class="cabecera">
+        <img 
+          src="https://firebasestorage.googleapis.com/v0/b/selecia-1f368.firebasestorage.app/o/imagenes%2FCLINICAS-MAISON-DE-SANTE-app.jpg?alt=media&token=4c36658c-34cc-4eea-bbda-e0514de550e6" 
+          alt="Empresa" 
+          class="logo-empresa"
+        >
+        <div class="info">
+          <div class="titulo-menu">
+            <h2 class="titulo-puesto">
+              {{ p.ofertaLaboral.puestoDeTrabajo.titulo.split(' ').slice(0,5).join(' ') }}
+              <span *ngIf="p.ofertaLaboral.puestoDeTrabajo.titulo.split(' ').length > 6">...</span>
+            </h2>
+            <button 
+              class="info-icon-btn" 
+              (click)="verInformacion(p.ofertaLaboral.puestoDeTrabajo.idPuesto)"
+              title="Ver información"
+            >
+              <span class="material-icons">info_outline</span>
+            </button>
+          </div>
+          <p class="empresa">Clínica Maison de Santé</p>
+        </div>
+      </div>
+
+      <!-- Detalles -->
+      <div class="detalle-resumen">
+        <span><strong>📍</strong> {{ p.ofertaLaboral.puestoDeTrabajo.distrito }}</span>
+        <span><strong>💼</strong> {{ p.ofertaLaboral.puestoDeTrabajo.modalidad }}</span>
+        <span><strong>💰</strong> S/ {{ p.ofertaLaboral.puestoDeTrabajo.salario }}</span>
+      </div>
+
+      <!-- Descripción -->
+      <div class="descripcion">
+        <p>{{ p.ofertaLaboral.puestoDeTrabajo.descripcion | slice:0:300 }}...</p>
+        <div class="acciones">
+          <span class="estado-btn" [ngClass]="p.estado ? 'estado-activo' : 'estado-inactivo'">
+            {{ p.estado ? 'Activa' : 'Inactiva' }}
+          </span>
+          <span class="postulado">Postulado</span>
+        </div>
+      </div>
+
+      <!-- Pie de tarjeta -->
+      <div class="footer-card">
+        <span class="fecha">Postulado el {{ p.fechaPostulacion | date:'longDate' }}</span>
+      </div>
+    </div>
+    <div 
+      *ngFor="let _ of getColumnPlaceholders()" 
+      class="postulacion-card placeholder-card">
+    </div>
+  </div>
+
+  <!-- Paginador -->
+  <div class="paginador" *ngIf="totalPaginas > 1">
+    <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">Anterior</button>
+
+    <button 
+      *ngFor="let page of paginas" 
+      (click)="cambiarPagina(page)" 
+      [class.activa]="page === paginaActual">
+      {{ page }}
+    </button>
+
+    <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="busqueda-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="filtro">
+      <h4 (click)="toggleFiltro('modalidad')" class="desplegable-titulo">
+        Modalidad
+      <span class="flecha" [class.abierto]="filtrosAbiertos['modalidad']"></span>
+      </h4>
+      <div class="check-lista" *ngIf="filtrosAbiertos['modalidad']">
+        <div class="check-item" *ngFor="let modalidad of modalidades; let i = index">
+          <input type="checkbox" id="mod-{{i}}" [(ngModel)]="modalidadSeleccionada[i]">
+          <label for="mod-{{i}}">
+            {{ modalidad }}
+            <span class="cantidad" [class.selected]="modalidadSeleccionada[i]">{{ cantidadesModalidad[i] }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtro">
+      <h4 (click)="toggleFiltro('experiencia')" class="desplegable-titulo">
+        Experiencia
+        <span class="flecha" [class.abierto]="filtrosAbiertos['experiencia']"></span>
+      </h4>
+      <div class="check-lista" *ngIf="filtrosAbiertos['experiencia']">
+        <div class="check-item" *ngFor="let exp of experienciaLista; let j = index">
+          <input type="checkbox" id="exp-{{j}}" [(ngModel)]="experienciaSeleccionada[j]" name="exp-{{j}}">
+          <label for="exp-{{j}}">
+            {{ exp }}
+            <span class="cantidad" [class.selected]="experienciaSeleccionada[j]">{{ cantidadesExperiencia[j] }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <button class="btn aplicar" (click)="aplicarFiltros()">Aplicar</button>
+      <button class="btn limpiar" (click)="limpiarFiltros()">Limpiar</button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="contenido">
+    <div class="resultados">
+      <p class="resumen">{{ ofertasFiltradas.length }} Resultados encontrados</p>
+      <div class="tarjetas">
+        <div class="tarjeta" *ngFor="let oferta of ofertasFiltradas">
+           <!-- Fila 1 -->
+          <div class="fila-1">
+            <img src="https://citas.maisondesante.org.pe/assets/images/CMS_300.png" alt="Empresa" class="logo-empresa">
+            <div class="titulo-empresa">
+              <h3>{{ truncateWords(oferta.puestoDeTrabajo.titulo, 10) }}</h3>
+              <p class="empresa">{{ 'Clínica Maison de Santé' }}</p>
+            </div>
+          </div>
+          <!-- Fila 2 -->
+          <p class="ubicacion">{{ oferta.puestoDeTrabajo.distrito }}, {{ oferta.puestoDeTrabajo.departamento }}</p>
+          <!-- Fila 3 -->
+          <div class="etiquetas">
+            <span>{{ extraerExperiencia(oferta.puestoDeTrabajo.requisitos) }}</span>
+            <span>{{ oferta.puestoDeTrabajo.modalidad }}</span>
+            <span>{{ oferta.puestoDeTrabajo.salario | currency:'PEN':'symbol':'1.0-0' }}</span>
+          </div>
+          <!-- Fila 4 -->
+          <p class="descripcion">{{ oferta.puestoDeTrabajo.descripcion | slice:0:100 }}...</p>
+          <!-- Fila 5 -->
+          <div class="fila-5">
+            <p class="fecha">Publicado el {{ oferta.fechaCreacion | date:'dd MMMM yyyy' }}</p>
+              <button
+                *ngIf="isLoggedIn"
+                [disabled]="estadoPostulacion[oferta.idOferta]"
+                [ngClass]="{ 'postulado': estadoPostulacion[oferta.idOferta] }"
+                (click)="postular(oferta)">
+                {{ estadoPostulacion[oferta.idOferta] ? 'Postulado' : 'Postular' }}
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

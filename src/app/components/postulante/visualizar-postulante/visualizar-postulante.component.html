@@ -1,0 +1,167 @@
+<div class="main-container recruiter light">
+  <!-- Header / Perfil -->
+  <div class="top-section grid-3">
+    <!-- Perfil -->
+    <div class="profile-box glass">
+      <div class="image-container">
+        <img
+          [src]="usuario.imagenUrl || 'assets/img/LogoSoloN.png'"
+          alt="Foto perfil"
+          class="profile-img"
+        />
+      </div>
+      <h3 class="name">
+        {{ usuario.nombres }}
+        <br />
+        <span>{{ usuario.apellidos }}</span>
+      </h3>
+
+      <div class="kpi-row">
+        <div class="kpi-card" *ngIf="perfilPostulante?.cvUrl; else kpiNoCv">
+          <div class="kpi-dot ok"></div>
+          <div class="kpi-text">
+            <strong>CV</strong>
+            <span>Apto para postular</span>
+          </div>
+          <button class="icon-btn" (click)="abrirPdf(perfilPostulante!.cvUrl)" title="Ver CV">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+        <ng-template #kpiNoCv>
+          <div class="kpi-card warn">
+            <div class="kpi-dot warn"></div>
+            <div class="kpi-text">
+              <strong>CV</strong>
+              <span>Falta subir</span>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Datos personales -->
+    <div class="info-box glass">
+      <h4>Datos personales</h4>
+      <div class="readonly-grid">
+        <div class="ro-field">
+          <label>Nombre(s)</label>
+          <p>{{ usuario.nombres || '—' }}</p>
+        </div>
+        <div class="ro-field">
+          <label>Apellidos</label>
+          <p>{{ usuario.apellidos || '—' }}</p>
+        </div>
+
+        <div class="ro-field">
+          <label>Tipo de documento</label>
+          <p>{{ usuario.tipodeDocuemnto || '—' }}</p>
+        </div>
+        <div class="ro-field">
+          <label>Número</label>
+          <p>{{ usuario.numeroDocumento || '—' }}</p>
+        </div>
+
+        <div class="ro-field span-2">
+          <label>Fecha de nacimiento</label>
+          <p>{{ usuario.fechadeNacimiento | date:'yyyy-MM-dd' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contacto / Redes -->
+    <div class="info-box glass">
+      <h4>Contacto & Redes</h4>
+      <div class="readonly-grid">
+        <div class="ro-field">
+          <label>Email</label>
+          <p>{{ usuario.correo || '—' }}</p>
+        </div>
+        <div class="ro-field">
+          <label>Distrito</label>
+          <p>{{ usuario.distrito || '—' }}</p>
+        </div>
+        <div class="ro-field">
+          <label>Departamento</label>
+          <p>{{ usuario.departamento || '—' }}</p>
+        </div>
+        <div class="ro-field">
+          <label>País</label>
+          <p>{{ usuario.pais || '—' }}</p>
+        </div>
+        <div class="ro-field span-2">
+          <label>Dirección</label>
+          <p>{{ usuario.direccion || '—' }}</p>
+        </div>
+
+        <div class="ro-field span-2">
+          <label>LinkedIn</label>
+          <p>
+            <a *ngIf="usuario?.linkedin; else dash1" [href]="usuario.linkedin" target="_blank" rel="noopener">
+              {{ usuario.linkedin }}
+            </a>
+            <ng-template #dash1>—</ng-template>
+          </p>
+        </div>
+
+        <div class="ro-field span-2">
+          <label>Red social principal</label>
+          <p>
+            <a *ngIf="usuario?.redSocialPrincipal; else dash2" [href]="usuario.redSocialPrincipal" target="_blank" rel="noopener">
+              {{ usuario.redSocialPrincipal }}
+            </a>
+            <ng-template #dash2>—</ng-template>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido del Perfil del Postulante (solo lectura) -->
+  <div class="bottom-section">
+    <div class="info-box glass">
+      <h4>Educación</h4>
+      <div class="readonly-box" [class.skeleton]="!perfilPostulante">
+        {{ perfilPostulante?.educacion || '—' }}
+      </div>
+    </div>
+
+    <div class="info-box glass">
+      <h4>Experiencia</h4>
+      <div class="readonly-box" [class.skeleton]="!perfilPostulante">
+        {{ perfilPostulante?.experiencia || '—' }}
+      </div>
+    </div>
+
+    <div class="info-box glass">
+      <h4>Habilidades técnicas</h4>
+      <div class="chip-wrap" [class.skeleton]="!habilidadesTecnicasArr.length">
+        <span class="chip" *ngFor="let h of habilidadesTecnicasArr">{{ h }}</span>
+        <span *ngIf="!habilidadesTecnicasArr?.length">—</span>
+      </div>
+    </div>
+
+    <div class="info-box glass">
+      <h4>Habilidades blandas</h4>
+      <div class="chip-wrap" [class.skeleton]="!habilidadesBlandasArr.length">
+        <span class="chip soft" *ngFor="let h of habilidadesBlandasArr">{{ h }}</span>
+        <span *ngIf="!habilidadesBlandasArr?.length">—</span>
+      </div>
+    </div>
+
+    <div class="info-box glass">
+      <h4>Certificaciones</h4>
+      <div class="chip-wrap" [class.skeleton]="!certificacionesArr.length">
+        <span class="chip cert" *ngFor="let c of certificacionesArr">{{ c }}</span>
+        <span *ngIf="!certificacionesArr?.length">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para visor de PDF -->
+  <div class="modal" *ngIf="mostrarPdf">
+    <div class="modal-content glass">
+      <span class="close" (click)="cerrarPdf()">&times;</span>
+      <iframe [src]="cvSanitizadoUrl" width="100%" height="600px"></iframe>
+    </div>
+  </div>
+</div>

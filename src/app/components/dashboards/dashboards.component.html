@@ -1,0 +1,147 @@
+<div class="container">
+  <div class="dashboard-container">
+    <!-- Título -->
+    <div class="dashboard-title">
+      <h2>{{ oferta?.puestoDeTrabajo?.titulo }}</h2>
+    </div>
+
+    <!-- Estructura en dos columnas -->
+    <div class="dashboard-columns">
+      <!-- Columna 1: Gráfico de Barras -->
+      <div class="chart-section">
+        <div class="chart-header">
+          <span class="legend purple"></span> Puntaje Mayor
+          <span class="legend dark"></span> Puntaje Obtenido
+
+          <select class="filter" (change)="filtrarCandidatos($event)">
+            <option value="Todos">Filtrar todo</option>
+            <option value="Top 7">Top 7 mejores</option>
+            <option value=">= 80">Puntaje mayor o igual a 80%</option>
+            <option value=">= 50">Puntaje mayor o igual a 50%</option>
+          </select>
+        </div>
+
+        <div class="chart-placeholder">
+          <apx-chart
+            *ngIf="barChartSeries.length"
+            [series]="barChartSeries"
+            [chart]="barChartOptions.chart"
+            [xaxis]="barChartOptions.xaxis"
+            [plotOptions]="barChartOptions.plotOptions"
+            [dataLabels]="barChartOptions.dataLabels"
+            [colors]="barChartOptions.colors"
+            [tooltip]="barChartOptions.tooltip"
+            [stroke]="barChartOptions.stroke">
+          </apx-chart>
+        </div>
+      </div>
+
+      <!-- Columna 2: Cards + Gráfico de Línea -->
+      <div class="side-panel">
+        <!-- Cards en fila -->
+        <div class="mini-cards">
+          <div class="mini-card">
+            <p class="card-title">Puntaje Promedio</p>
+            <apx-chart
+              class="small-chart"
+              [series]="radialSeries"
+              [chart]="radialChartOptions.chart"
+              [plotOptions]="radialChartOptions.plotOptions"
+              [labels]="radialChartOptions.labels"
+              [colors]="radialChartOptions.colors">
+            </apx-chart>
+          </div>
+
+          <div class="mini-card">
+            <p class="card-title">Distribución por Edad</p>
+            <apx-chart
+              class="small-chart"
+              [series]="donutSeries"
+              [chart]="donutChartOptions.chart"
+              [labels]="donutChartOptions.labels"
+              [colors]="donutChartOptions.colors"
+              [legend]="donutChartOptions.legend"
+              [tooltip]="donutChartOptions.tooltip">
+            </apx-chart>
+          </div>
+        </div>
+
+        <!-- Gráfico adicional debajo -->
+        <div class="extra-chart">
+          <h3>Tendencia de Registro de Postulantes</h3>
+          <apx-chart
+            class="medium-chart"
+            [series]="lineSeries"
+            [chart]="lineChartOptions.chart"
+            [xaxis]="lineChartOptions.xaxis"
+            [stroke]="lineChartOptions.stroke"
+            [dataLabels]="lineChartOptions.dataLabels"
+            [colors]="lineChartOptions.colors"
+            [tooltip]="lineChartOptions.tooltip">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de candidatos -->
+    <div class="tabla-section">
+      <h3>Información de Postulantes</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Puntaje</th>
+            <th>Ver Perfil</th>
+            <th>Explicabilidad</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Usamos un ng-container para poder tener dos <tr> por candidato -->
+          <ng-container *ngFor="let candidato of candidatos">
+            <!-- Fila principal -->
+            <tr>
+              <td>{{ candidato.username }}</td>
+              <td>{{ (candidato.totalScore) | number: '1.0-2' }}%</td>
+              <td>
+                <button class="btn-perfil" (click)="verPerfil(candidato)">Ver perfil</button>
+              </td>
+              <td>
+                <button class="btn-explica" (click)="toggleDetalle(candidato)">
+                  {{ isExpanded(candidato) ? 'Ocultar' : 'Ver' }}
+                </button>
+              </td>
+            </tr>
+
+            <!-- Fila de detalle (explicabilidad) -->
+            <tr *ngIf="isExpanded(candidato)">
+              <td class="detalle-container" colspan="4">
+                <div class="detalle-grid">
+                  <!-- Tarjeta por atributo -->
+                  <div class="detalle-card" *ngFor="let item of atributos">
+                    <p class="detalle-title">{{ item.label }}</p>
+
+                    <apx-chart
+                      class="radial-mini"
+                      [series]="[getScore(candidato, item.key)]"
+                      [chart]="radialMini.chart"
+                      [plotOptions]="radialMini.plotOptions"
+                      [labels]="[item.label]"
+                      [colors]="radialMini.colors">
+                    </apx-chart>
+
+                    <p class="detalle-explicacion">
+                      {{ getExplicacion(candidato, item.key) }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="cargar-container">
+    <!-- Mensajes visuales -->
+    <div
+      *ngIf="mensaje"
+      [ngClass]="{
+        'mensaje-ok': mensajeTipo === 'ok',
+        'mensaje-error': mensajeTipo === 'error'
+      }"
+      class="mensaje"
+    >
+      <span *ngIf="mensajeTipo === 'ok'">✔️ {{ mensaje }}</span>
+      <span *ngIf="mensajeTipo === 'error'">❌ {{ mensaje }}</span>
+    </div>
+
+    <h2>Cargar CV</h2>
+
+    <div
+      class="dropzone"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event)"
+      (click)="fileInputRef.nativeElement.click()"
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/724/724933.png"
+        alt="upload icon"
+        width="80"
+      />
+      <p>
+        <strong>Arrastra y suelta archivos</strong> o
+        <span class="browse">Buscar</span>
+      </p>
+      <small>Solo formato PDF</small>
+      <input
+        #fileInput
+        type="file"
+        hidden
+        (change)="onFileSelected($event)"
+        accept=".pdf"
+      />
+    </div>
+
+    <!-- Estado de carga -->
+    <div *ngIf="uploading" class="estado">
+      <p>Cargando archivo...</p>
+      <progress [value]="progress" max="100"></progress>
+    </div>
+
+    <div *ngIf="uploadFinished" class="estado success">
+      <p>Archivo subido:</p>
+      <div class="archivo-subido">
+        <span>{{ uploadedFiles[0].name }}</span>
+        <button (click)="removeFile()">❌</button>
+      </div>
+    </div>
+
+    <button
+      class="btn-subir"
+      (click)="subirCV()"
+      [disabled]="!uploadFinished || uploading"
+    >
+      Subir CV
+    </button>
+
+    <!-- ✅ Botón de retroceso visible solo al terminar -->
+    <button
+      *ngIf="procesoTerminado"
+      class="btn-retroceder"
+      (click)="retroceder()"
+    >
+      ⬅️ Retroceder
+    </button>
+  </div>
+</div>

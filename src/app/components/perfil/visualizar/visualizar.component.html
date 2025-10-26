@@ -1,0 +1,321 @@
+<div class="main-container">
+  <!-- Perfil y Datos -->
+  <div class="top-section">
+  <div class="profile-box">
+    <div class="image-container">
+      <img [src]="imagenPreview || usuario.imagenUrl || 'assets/img/default-profile.png'" alt="Foto perfil" class="profile-img"/>
+      <button class="btn-circle left" title="Eliminar foto" (click)="eliminarImagen()">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button class="btn-circle right" title="Editar foto" (click)="fileInput.click()">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <input #fileInput type="file" accept="image/*" hidden (change)="subirImagen($event)" />
+    </div>
+
+    <h3>{{ usuario.nombres }}<br /><span>{{ usuario.apellidos }}</span></h3>
+
+    <!-- Botón guardar cambios debajo del bloque de perfil -->
+    <div class="btn-guardar-container">
+      <button class="btn-guardar" (click)="guardarCambios()">
+        Guardar cambios
+      </button>
+    </div>
+    <div class="btn-guardar-container" *ngIf="rol !== 'Reclutador'">
+      <button class="btn-guardar" (click)="actualizarDatosPostulante()">
+        Perfil de Postulante
+      </button>
+    </div>
+  </div>
+
+  <div class="info-box datos-personales">
+  <h4>Datos personales</h4>
+  <div class="form-group locked-field">
+    <label for="nombre">Nombre(s)</label>
+     <div class="input-estatico">
+        <input id="nombre" type="text" [value]="usuario.nombres" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+  </div>
+
+  <div class="form-group locked-field">
+    <label for="apellidoP">Apellidos completos</label>
+     <div class="input-estatico">
+        <input id="apellidos" type="text" [value]="usuario.apellidos" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+  </div>
+
+<div class="form-row">
+  <div class="form-group half">
+    <label for="tipoDoc" class="label-dark">Tipo de documento</label>
+    <select id="tipoDoc" [(ngModel)]="usuario.tipodeDocuemnto" name="tipodeDocuemnto" class="input-blanco">
+      <option value="">Seleccione...</option>
+      <option value="DNI">DNI</option>
+      <option value="Carnet de Extranjería">Carnet de Extranjería</option>
+      <option value="Pasaporte">Pasaporte</option>
+    </select>
+  </div>
+  <div class="form-group half">
+    <label for="numDoc" class="label-dark">Número</label>
+    <input id="numDoc" type="text" [(ngModel)]="usuario.numeroDocumento" name="numeroDocumento" placeholder="12345678" class="input-blanco"/>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="fechaNac" class="label-dark">Fecha de nacimiento</label>
+  <input id="fechaNac" type="date" [(ngModel)]="usuario.fechadeNacimiento" name="fechaNacimiento" class="input-blanco" />
+</div>
+<div class="form-group" *ngIf="rol == 'Reclutador'">
+</div>
+
+</div>
+
+
+  <div class="info-box">
+    <h4>Datos de contacto</h4>
+
+    <div class="form-group locked-field">
+      <label for="email">Email</label>
+      <div class="input-estatico">
+          <input id="email" type="email" [value]="usuario.correo" readonly />
+          <mat-icon class="lock-icon">lock</mat-icon>
+        </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group half">
+        <label for="distrito">Distrito</label>
+        <input id="distrito" type="text" [(ngModel)]="usuario.distrito" name="Distrito" class="input-blanco" />
+      </div>
+      <div class="form-group half">
+        <label for="departamento">Departamento</label>
+        <input id="departamento" type="text" [(ngModel)]="usuario.departamento" name="Departamento" class="input-blanco" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group half">
+        <label for="pais">País</label>
+        <input id="pais" type="text" [(ngModel)]="usuario.pais" name="Pais" class="input-blanco" />
+      </div>
+      <div class="form-group half">
+        <label for="direccion">Dirección</label>
+        <input id="direccion" type="text" [(ngModel)]="usuario.direccion" name="Dirección" class="input-blanco" />
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box" *ngIf="rol !== 'Reclutador'">
+    <h4>Links de Redes Sociales</h4>
+    <div class="form-group">
+      <label for="linkedin">Linkedin</label>
+      <input
+        id="linkedin"
+        type="text"
+        [(ngModel)]="usuario.linkedin"
+        name="Linkedin"
+        class="input-blanco"
+        placeholder="https://www.linkedin.com/in/tuusuario"
+      />
+    </div>
+    <div class="form-group">
+      <label for="redSocial1">Red social principal</label>
+      <input
+        id="redSocial1"
+        type="text"
+        [(ngModel)]="usuario.redSocialPrincipal"
+        name="RedSocialPrincipal"
+        class="input-blanco"
+        placeholder="Ej: https://twitter.com/tuusuario"
+      />
+    </div>
+    <div class="cv-section">
+        <h4>Curriculum</h4>
+        <span class="cv-name">
+          <div *ngIf="perfilPostulante?.cvUrl; else noCv">
+            <div class="cv-status">
+              <div class="cv-left">
+                <span class="cv-circle green"></span>
+                <span class="cv-label">Apto para postular</span>
+              </div>
+              <button class="btn-eye" (click)="abrirPdf(perfilPostulante!.cvUrl)" title="Ver CV">
+                <mat-icon class="eye-icon">visibility</mat-icon>
+              </button>
+            </div>
+
+          </div>
+          <ng-template #noCv>
+            <div class="cv-status">
+              <span class="cv-circle red"></span>
+              <span class="cv-label">Suba un curriculum para postular</span>
+            </div>
+          </ng-template>
+
+        </span>
+
+        <div class="buttons">
+          <button class="btn-upload" (click)="subir()">
+            <mat-icon class="btn-icon">upload</mat-icon>
+            Subir
+          </button>
+        </div>
+    </div>
+  </div>
+
+  <div class="info-box empresa-form" *ngIf="rol == 'Reclutador'">
+  <h4>Datos de Empresa</h4>
+
+  <!-- Email -->
+  <div class="form-group locked-field">
+    <label for="emailEmpresa">Email</label>
+    <div class="input-estatico">
+      <input id="emailEmpresa" type="email" value="MaisonsdeSanté@gmail.com" readonly />
+      <mat-icon class="lock-icon">lock</mat-icon>
+    </div>
+  </div>
+
+  <!-- RUC -->
+  <div class="form-group locked-field">
+    <label for="rucEmpresa">RUC Empresa</label>
+    <div class="input-estatico">
+      <input id="rucEmpresa" type="text" value="20101165389" readonly />
+      <mat-icon class="lock-icon">lock</mat-icon>
+    </div>
+  </div>
+
+  <!-- Fila: Distrito y Dirección -->
+  <div class="form-row">
+    <div class="form-group half locked-field">
+      <label for="distritoEmpresa">Distrito</label>
+      <div class="input-estatico">
+        <input id="distritoEmpresa" type="text" value="Lima" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+    </div>
+    <div class="form-group half locked-field">
+      <label for="direccionEmpresa">Dirección</label>
+      <div class="input-estatico">
+        <input id="direccionEmpresa" type="text" value="Av. Los Jaminez Mz.k" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fila: Departamento y País -->
+  <div class="form-row">
+    <div class="form-group half locked-field">
+      <label for="departamentoEmpresa">Departamento</label>
+      <div class="input-estatico">
+        <input id="departamentoEmpresa" type="text" value="Lima" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+    </div>
+    <div class="form-group half locked-field">
+      <label for="paisEmpresa">País</label>
+      <div class="input-estatico">
+        <input id="paisEmpresa" type="text" value="Perú" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fila: Industria y Tamaño -->
+  <div class="form-row">
+    <div class="form-group half locked-field">
+      <label for="industriaEmpresa">Industria</label>
+      <div class="input-estatico">
+        <input id="industriaEmpresa" type="text" value="Salud" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+    </div>
+    <div class="form-group half locked-field">
+      <label for="tamanioEmpresa">Tamaño de Empresa</label>
+      <div class="input-estatico">
+        <input id="tamanioEmpresa" type="text" value="Mediana" readonly />
+        <mat-icon class="lock-icon">lock</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="form-group locked-field">
+    <label for="telefonoEmpresa">Teléfono Celular</label>
+    <div class="input-estatico">
+      <input id="telefonoEmpresa" type="text" value="+51 987654321" readonly />
+      <mat-icon class="lock-icon">lock</mat-icon>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-section" *ngIf="rol !== 'Reclutador'">
+
+  <ng-container *ngIf="perfilPostulante; else crearPerfil">
+    <!-- Campos cuando SÍ hay perfilPostulante -->
+    <div class="info-box">
+      <h4>Educación</h4>
+      <textarea [(ngModel)]="perfilPostulante.educacion" name="educacion" rows="3" class="input-blanco"
+        placeholder="Ej: Bachiller en Ingeniería de Sistemas, UPC"></textarea>
+    </div>
+
+    <div class="info-box">
+      <h4>Experiencia</h4>
+      <textarea [(ngModel)]="perfilPostulante.experiencia" name="experiencia" rows="3" class="input-blanco"
+        placeholder="Ej: 3 años como Data Analyst en banca"></textarea>
+    </div>
+
+    <div class="info-box">
+      <h4>Habilidades técnicas</h4>
+      <textarea [(ngModel)]="perfilPostulante.habilidadesTecnicas" name="habilidadesTecnicas" rows="3" class="input-blanco"
+        placeholder="SQL, Python, Power BI, Excel Avanzado"></textarea>
+    </div>
+
+    <div class="info-box">
+      <h4>Habilidades blandas</h4>
+      <textarea [(ngModel)]="perfilPostulante.habilidadesBlandas" name="habilidadesBlandas" rows="3" class="input-blanco"
+        placeholder="Trabajo en equipo, comunicación, liderazgo"></textarea>
+    </div>
+
+    <div class="info-box">
+      <h4>Certificaciones</h4>
+      <textarea [(ngModel)]="perfilPostulante.certificaciones" name="certificaciones" rows="3" class="input-blanco"
+        placeholder="Google Data Analytics, Excel Avanzado"></textarea>
+    </div>
+  </ng-container>
+
+  <ng-template #crearPerfil>
+    <div class="info-box">
+      <h4>Perfil de Postulante</h4>
+      <p>No has creado tu perfil de postulante aún.</p>
+      <button class="btn-guardar" (click)="crearPerfilPostulante()">Crear perfil</button>
+    </div>
+  </ng-template>
+
+</div>
+
+
+
+<!-- Video de YouTube debajo del formulario -->
+<div class="video-container" style="margin-top: 24px;" *ngIf="rol == 'Reclutador'">
+  <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/BsFBuvhlWqg"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+
+
+
+<!-- Modal para visor de PDF -->
+<div class="modal" *ngIf="mostrarPdf">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarPdf()">&times;</span>
+    <iframe [src]="cvSanitizadoUrl" width="100%" height="600px"></iframe>
+  </div>
+</div>

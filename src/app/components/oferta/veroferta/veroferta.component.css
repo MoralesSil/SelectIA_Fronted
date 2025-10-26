@@ -1,0 +1,157 @@
+.container-general {
+  padding-top: 3rem;
+}
+
+.mis-ofertas-container {
+  padding: 1.5em;
+}
+
+.ofertas-recientes {
+  background-color: transparent;
+  padding: 20px;
+}
+
+.ofertas-recientes h2 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #02492e;
+}
+
+.carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 20px;
+  padding-bottom: 10px;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none; /* Ocultar scroll en navegadores webkit */
+}
+
+.oferta-card {
+  flex: 0 0 450px; /* Aumenté el ancho de cada tarjeta */
+  min-width: 450px; /* Para que no se achique */
+  max-width: 450px; /* Opcional, para que no crezca más de esto */
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  background: #fff;
+  padding: 17px;
+  font-family: 'Lato', sans-serif;
+}
+
+.oferta-card:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); /* Sombra más intensa al pasar el mouse */
+}
+
+.oferta-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.oferta-info h3 {
+  margin: 0 8px 4px 8px;
+  font-size: 16px;
+}
+
+.empresa-distrito {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #007bff;
+  margin: 0 8px;
+}
+
+.empresa-distrito .separador {
+  margin: 0 6px;
+  color: #999;
+}
+
+.etiquetas {
+  display: flex;
+  justify-content: space-between; /* Para que se distribuyan en la línea */
+  flex-wrap: wrap; /* Por si se reduce la pantalla */
+  margin: 10px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.etiquetas span {
+  margin-right: 10px; /* Separación entre cada etiqueta */
+}
+
+.descripcion {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.oferta-footer {
+  display: flex;
+  justify-content: space-between; /* Fecha a la izquierda, botón a la derecha */
+  align-items: center;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.fecha-cierre {
+  color: #666;
+  font-size: 13px;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-ver {
+  background-color: #007f4f;
+  color: #fff;
+}
+
+.scroll-btn {
+  background-color: #0B4C28;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 5px;
+  z-index: 1;
+}
+
+.scroll-btn.left {
+  margin-right: 10px;
+}
+
+.scroll-btn.right {
+  margin-left: 10px;
+}

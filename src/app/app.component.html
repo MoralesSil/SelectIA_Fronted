@@ -1,0 +1,110 @@
+<header class="header">
+  <!-- Logo clickeable que redirige según el rol -->
+    <a class="logo"
+      [routerLink]="isReclutador() ? '/home' : '/busqueda'"
+      aria-label="Ir al inicio">
+      <img src="assets/img/LogoLargoN.png" alt="Logo SelecIA" class="logo-long" />
+      <img src="assets/img/LogoSoloN.png"  alt="Logo SelecIA" class="logo-small" />
+    </a>
+
+
+  <!-- Menú para reclutador -->
+  <nav class="reclutador-menu desktop-only" *ngIf="isReclutador()">
+    <a [routerLink]="['/home']" routerLinkActive="active-link">Inicio</a>
+    <a [routerLink]="['/crearoferta']" routerLinkActive="active-link">Crear Puesto de trabajo</a>
+    <a [routerLink]="['/crearoferta2']" routerLinkActive="active-link">Crear Oferta de Trabajo</a>
+    <a [routerLink]="['/oferta']" routerLinkActive="active-link">Mis ofertas</a>
+  </nav>
+
+  <div class="search-bar" *ngIf="!isReclutador()">
+    <!-- Input 1: Puesto de trabajo -->
+    <div class="input-icon">
+      <input type="text" placeholder="Puesto de trabajo" [(ngModel)]="jobInputValue" (keydown.enter)="buscar()"/>
+      <span class="material-icons">search</span>
+    </div>
+
+    <!-- Input 2: Lugar con autocomplete -->
+    <div class="input-icon autocomplete-wrapper" (click)="stopPropagation($event)">
+      <input
+        type="text"
+        [(ngModel)]="placeInputValue"
+        (input)="onCustomInputChange()"
+        (focus)="showDropdown = true"
+        placeholder="Lugar"
+        (keydown.enter)="buscar()"
+      />
+      <span class="material-icons">place</span>
+      <div *ngIf="showDropdown && filteredPlaces.length > 0" class="autocomplete-dropdown">
+        <div class="autocomplete-option" *ngFor="let place of filteredPlaces" (click)="selectPlace(place)">
+          <span class="material-icons">place</span>
+          <div class="option-text">
+            {{ place }}
+            <span class="autocomplete-subtext">Distrito</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-search" (click)="buscar()">Buscar</button>
+  </div>
+
+  <!-- Bienvenida con imagen de perfil -->
+  <div *ngIf="verificar()" class="user-info desktop-only">
+    <img [src]="imagenPerfil" alt="Foto de perfil" class="profile-img" />
+    <div class="welcome-text">
+      <span>¡Bienvenido!</span>
+      <div class="user-name">{{ username }}</div>
+    </div>
+    <button class="btn-perfil">
+          <span class="material-icons arrow-icon" (click)="toggleUserMenu()">expand_more</span>
+    </button>
+  </div>
+
+  <!-- Menú desplegable de usuario -->
+  <div class="user-dropdown desktop-only" *ngIf="userMenuOpen">
+    <button (click)="verPerfil()">
+      Ver perfil<span class="material-icons">person</span> 
+    </button>
+    <button (click)="irAMisPostulaciones()" *ngIf="!isReclutador()">
+      Mis postulaciones <span class="material-icons">work</span>
+    </button>
+    <button (click)="cerrarSesion()">
+      Cerrar sesión<span class="material-icons">logout</span>
+    </button>
+  </div>
+
+
+  <div class="header-buttons desktop-only" *ngIf="!verificar()">
+    <button class="btn-outline" (click)="abrirRegister()">Regístrate</button>
+    <button class="btn-filled" (click)="abrirLogin()">Iniciar Sesión</button>
+  </div>
+
+  <!-- Icono menú para móvil -->
+  <div class="mobile-only" (click)="toggleMobileMenu()">
+    <span class="material-icons">menu</span>
+  </div>
+
+  <!-- Menú desplegable móvil -->
+  <div *ngIf="mobileMenuOpen && !verificar()" class="mobile-dropdown mobile-only">
+    <button class="btn-outline" (click)="abrirRegister()">Regístrate</button>
+    <button class="btn-filled" (click)="abrirLogin()">Iniciar Sesión</button>
+  </div>
+</header>
+
+<router-outlet></router-outlet>
+<!-- Modal Login -->
+<app-login *ngIf="mostrarLogin" (close)="cerrarLogin()" (loginExitoso)="onLoginExitoso()" (solicitarRegistro)="abrirRegisterDesdeLogin()" class="modal-login"></app-login>
+<app-register *ngIf="mostrarRegister" (close)="cerrarRegister()" (solicitarInicio)="abrirIniciorDesdeRegister()" class="modal-register"></app-register>
+
+<!-- Modal de confirmación personalizado -->
+<div class="modal-backdrop" *ngIf="mostrarConfirmacion">
+  <div class="custom-modal">
+    <h2 class="modal-title">Cerrar sesión</h2>
+    <p class="modal-content">¿Estás seguro de que deseas cerrar sesión?</p>
+    <div class="modal-actions">
+      <button class="mat-button cancel-btn" (click)="cancelarCerrarSesion()">Cancelar</button>
+      <button class="mat-button confirm-btn" (click)="confirmarCerrarSesion()">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+

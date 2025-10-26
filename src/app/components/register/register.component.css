@@ -1,0 +1,378 @@
+/* ===========================
+   MODAL Y CONTENEDORES
+=========================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.register-container {
+    position: relative;
+    display: flex;
+    width: 60%;
+    height: 80%;
+    background-color: white;
+    border-radius: 2em;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ===========================
+   SECCIÓN IZQUIERDA
+=========================== */
+.register-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centra verticalmente */
+    align-items: center;
+    padding: 3.5em;
+    position: relative;
+    min-height: 100%;
+}
+
+.welcome-title {
+    position: relative; /* quito absolute para mejor flujo */
+    margin-bottom: 1.5em;
+    width: 100%;
+    text-align: center;
+    font-size: 1.6rem;
+    color: #1A1A1A;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+
+/* ===========================
+   FORMULARIO
+=========================== */
+.register-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 3.5%;
+}
+
+.form-group-row {
+    display: flex;
+    gap: 4%;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.3em;
+    color: #333333;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-left: 0.8em;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.6em 1em;
+    border: 1px solid #E5E5E5;
+    border-radius: 0.5em;
+    font-size: 0.95rem;
+    font-family: 'Lato', sans-serif;
+    background-color: #F2F2F2;
+    color: #808080;
+    box-sizing: border-box;
+}
+
+/* ===========================
+   BOTÓN REGISTRARSE
+=========================== */
+.btn-register {
+    background-color: #004229;
+    color: #ffffff;
+    padding: 0.6rem 0;
+    border: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+    margin-top: 1em;
+    display: block;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #006644;
+}
+
+/* ===========================
+   MENSAJE LOGIN
+=========================== */
+.login-message {
+    text-align: center;
+    margin-top: 1em;
+    font-family: 'Lato', sans-serif;
+}
+
+.login-message p {
+    color: #333;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.btn-login {
+        color: #004229;
+        text-decoration: underline;
+        margin-left: 0.5rem;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+/* ===========================
+   SECCIÓN DERECHA
+=========================== */
+.register-right {
+    flex: 1.5;
+    position: relative;
+}
+
+.login-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===========================
+   BOTÓN CERRAR (X)
+=========================== */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #333;
+}
+
+/* ===========================
+   CAMPO CONTRASEÑA
+=========================== */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.toggle-password mat-icon {
+    color: #004229;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+/* ===========================
+   CAMPO TELÉFONO
+=========================== */
+.phone-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #E5E5E5;
+    border-radius: 0.5em;
+    background-color: #F2F2F2;
+    padding: 0.17em;
+}
+
+.flag-icon {
+    width: 20px;
+    height: auto;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.country-code {
+    font-family: 'Lato', sans-serif;
+    color: #808080;
+    font-size: 0.85rem;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.phone-input-container input {
+    border: none;
+    outline: none;
+    font-size: 0.85rem;
+    background-color: transparent;
+    color: #808080;
+    width: 100%;
+    padding: 0.2em 0.5em;
+}
+
+/* ===========================
+   MENSAJES DE ERROR
+=========================== */
+mat-error {
+    position: absolute;
+    left: 10px;
+    bottom: -20px;
+    color: #ff0000;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.70rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.form-group input.ng-invalid.ng-touched ~ mat-error {
+    opacity: 1;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+/* Para pantallas medianas y menores */
+@media (max-width: 1024px) {
+    .register-container {
+        width: 80%;
+        height: 70vh;
+        border-radius: 1.5em;
+    }
+
+    .welcome-title {
+        font-size: 1.4rem;
+        margin-bottom: 1em;
+    }
+
+    .btn-register {
+        font-size: 0.95rem;
+    }
+}
+
+/* Para tablets y móviles grandes */
+@media (max-width: 768px) {
+    .register-container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+        border-radius: 1em;
+    }
+
+    .register-right {
+        display: none;
+    }
+
+    .register-left {
+        padding: 2em;
+        justify-content: flex-start; /* para que el contenido quede arriba en pantallas chicas */
+        min-height: auto;
+    }
+
+    .welcome-title {
+        font-size: 1.3rem;
+        margin-bottom: 1em;
+    }
+
+    .btn-register {
+        font-size: 0.9rem;
+    }
+}
+
+/* Para móviles muy pequeños */
+@media (max-width: 480px) {
+    .form-group-row {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .welcome-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.8em;
+    }
+
+    .form-group label,
+    .form-group input {
+        font-size: 0.85rem;
+    }
+
+    .form-group input {
+        padding: 0.5em;
+    }
+
+    .btn-register {
+        font-size: 0.85rem;
+        padding: 0.5em;
+    }
+
+    .login-message p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Ajustes cuando la altura del viewport sea menor o igual a 768px */
+@media (max-height: 768px) {
+    .welcome-title {
+        font-size: 1.1rem !important; /* menos tamaño que 1.6rem original */
+    }
+
+    .form-group label {
+        font-size: 0.75rem !important;
+        margin-left: 0.5em !important;
+    }
+
+    .form-group input {
+        font-size: 0.75rem !important;
+        padding: 0.35em 0.75em !important;
+    }
+
+    .btn-register {
+        font-size: 0.75rem !important;
+        padding: 0.35em 0 !important;
+    }
+
+    .login-message p {
+        font-size: 0.75rem !important;
+    }
+
+    .phone-input-container input {
+        font-size: 0.65rem !important;
+        padding: 0.15em 0.4em !important;
+    }
+
+    .country-code {
+        font-size: 0.65rem !important;
+    }
+
+    /* Ajustes para iconos de toggle password si hay */
+    .toggle-password mat-icon {
+        font-size: 1.1rem !important;
+    }
+}
+

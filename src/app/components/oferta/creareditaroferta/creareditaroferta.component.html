@@ -1,0 +1,234 @@
+<div>
+  <form [formGroup]="formularioPuesto" (ngSubmit)="guardarPuesto()" class="wrapper">
+
+    <div class="columna-izquierda">
+      <div class="card">
+        <h3>{{ modoEdicion ? 'Editar información del puesto' : 'Información básica del puesto' }}</h3>
+
+        <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('titulo') }">
+          <label>Título del puesto <span class="required">*</span></label>
+          <div><input type="text" formControlName="titulo" placeholder="Ej. Analista de datos junior" /></div>
+          <div *ngIf="isInvalid('titulo')" class="error-text">Campo requerido</div>
+        </div>
+
+        <div class="row">
+          <div class="input-group">
+            <label>País</label>
+            <div class="estatico">
+              <input type="text" formControlName="pais" readonly />
+              <mat-icon class="suffix">lock</mat-icon>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Departamento</label>
+            <div class="estatico">
+              <input type="text" formControlName="departamento" readonly />
+              <mat-icon class="suffix">lock</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('distrito') }">
+            <label>Distrito <span class="required">*</span></label>
+            <div>
+              <select formControlName="distrito">
+                <option value="">Seleccione un distrito</option>
+                <option *ngFor="let lugar of allPlaces" [value]="lugar">{{ lugar }}</option>
+              </select>
+            </div>
+            <div *ngIf="isInvalid('distrito')" class="error-text">Campo requerido</div>
+          </div>
+
+          <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('categoria') }">
+            <label>Categoría <span class="required">*</span></label>
+            <div><input type="text" formControlName="categoria" placeholder="Ej. Ingeniería, Contabilidad"/></div>
+            <div *ngIf="isInvalid('categoria')" class="error-text">Campo requerido</div>
+          </div>
+        </div>
+
+        <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('descripcion') }">
+          <label>Descripción <span class="required">*</span></label>
+          <div>
+            <textarea rows="4" formControlName="descripcion"
+              placeholder="Requisitos del puesto, funciones y beneficios..."></textarea>
+          </div>
+          <div *ngIf="isInvalid('descripcion')" class="error-text">Campo requerido</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Información adicional</h3>
+
+        <div class="row">
+          <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('jornada') }">
+            <label>Jornada <span class="required">*</span></label>
+            <div>
+              <select formControlName="jornada">
+                <option value="">Seleccione una opción</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Temporal">Temporal</option>
+                <option value="Por horas">Por horas</option>
+                <option value="Turno rotativo">Turno rotativo</option>
+              </select>
+            </div>
+            <div *ngIf="isInvalid('jornada')" class="error-text">Campo requerido</div>
+          </div>
+
+          <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('modalidad') }">
+            <label>Modalidad <span class="required">*</span></label>
+            <div>
+              <select formControlName="modalidad">
+                <option value="">Seleccione una opción</option>
+                <option value="Presencial">Presencial</option>
+                <option value="Remota">Remota</option>
+                <option value="Híbrida">Híbrida</option>
+              </select>
+            </div>
+            <div *ngIf="isInvalid('modalidad')" class="error-text">Campo requerido</div>
+          </div>
+        </div>
+
+        <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('salario') }">
+          <label>Salario <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <span class="prefix">S/</span>
+            <input type="number" formControlName="salario" class="input-salario" placeholder="0.00" />
+            <span class="suffix">PEN</span>
+          </div>
+          <div *ngIf="isInvalid('salario')" class="error-text">Campo requerido y numérico</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columna-derecha">
+      <div class="card">
+        <h3>Requisitos del puesto para analizar con IA</h3>
+
+        <!-- EXPERIENCIA -->
+        <div class="input-group" [ngClass]="{ 'input-invalid': isInvalid('experiencia') }">
+          <label>Experiencia <span class="required">*</span></label>
+          <div>
+            <textarea rows="2" formControlName="experiencia"
+              placeholder="Ej: 2 años de experiencia en bases de datos (SQL, ETL) y banca."></textarea>
+          </div>
+          <div *ngIf="isInvalid('experiencia')" class="error-text">Campo requerido</div>
+        </div>
+
+        <!-- HABILIDADES TÉCNICAS -->
+        <div class="input-group" [ngClass]="{ 'input-invalid': competenciasInvalidas }">
+          <label>Habilidades técnicas <span class="required">*</span></label>
+
+          <div class="badges">
+            <!-- Seleccionadas (estado real) -->
+            <div class="badge selected"
+                 *ngFor="let comp of requisitosData.competencias"
+                 (click)="toggleCompetencia(comp)">
+              {{ comp }} <span class="remove-btn" (click)="eliminarCompetencia(comp)">✖</span>
+            </div>
+
+            <!-- Sugeridas (solo si no están seleccionadas) -->
+            <div class="badge"
+                 *ngFor="let s of tecnicasSugeribles"
+                 (click)="toggleCompetencia(s)">
+              {{ s }}
+            </div>
+
+            <!-- Agregar manual -->
+            <div class="input-agregar-wrapper">
+              <input *ngIf="agregandoCompetencia" #inputComp class="badge-input"
+                     type="text"
+                     (keyup.enter)="agregarCompetencia(inputComp.value); inputComp.value=''"
+                     (blur)="cancelarAgregarCompetencia()"
+                     placeholder="Escribe y presiona Enter" />
+              <span class="btn-add" (click)="mostrarInputCompetencia()">+ Agregar</span>
+            </div>
+          </div>
+
+          <div *ngIf="competenciasInvalidas" class="error-text">Selecciona al menos una competencia</div>
+        </div>
+
+        <!-- HABILIDADES BLANDAS -->
+        <div class="input-group" [ngClass]="{ 'input-invalid': habilidadesInvalidas }">
+          <label>Habilidades blandas <span class="required">*</span></label>
+
+          <div class="badges">
+            <!-- Seleccionadas -->
+            <div class="badge selected"
+                 *ngFor="let hab of requisitosData.habilidades"
+                 (click)="toggleHabilidad(hab)">
+              {{ hab }} <span class="remove-btn" (click)="eliminarHabilidad(hab)">✖</span>
+            </div>
+
+            <!-- Sugeridas -->
+            <div class="badge"
+                 *ngFor="let s of blandasSugeribles"
+                 (click)="toggleHabilidad(s)">
+              {{ s }}
+            </div>
+
+            <div class="input-agregar-wrapper">
+              <input *ngIf="agregandoHabilidad" #inputHab class="badge-input"
+                     type="text"
+                     (keyup.enter)="agregarHabilidad(inputHab.value); inputHab.value=''"
+                     (blur)="cancelarAgregarHabilidad()"
+                     placeholder="Escribe y presiona Enter" />
+              <span class="btn-add" (click)="mostrarInputHabilidad()">+ Agregar</span>
+            </div>
+          </div>
+
+          <div *ngIf="habilidadesInvalidas" class="error-text">Selecciona al menos una habilidad</div>
+        </div>
+
+        <!-- EDUCACIÓN (texto libre) -->
+        <div class="input-group">
+          <label>Educación</label>
+          <div>
+            <textarea rows="2" formControlName="educacion"
+                      placeholder="Ej: Bachiller en Ingeniería de Sistemas, Industrial o afines"></textarea>
+          </div>
+        </div>
+
+        <!-- CERTIFICACIONES / IDIOMAS -->
+        <div class="input-group">
+          <label>Certificaciones / Idiomas</label>
+
+          <div class="badges">
+            <!-- Seleccionadas -->
+            <div class="badge selected"
+                 *ngFor="let cert of requisitosData.certificaciones"
+                 (click)="toggleCertificacion(cert)">
+              {{ cert }} <span class="remove-btn" (click)="eliminarCertificacion(cert)">✖</span>
+            </div>
+
+            <!-- Sugeridas -->
+            <div class="badge"
+                 *ngFor="let s of certsSugeribles"
+                 (click)="toggleCertificacion(s)">
+              {{ s }}
+            </div>
+
+            <div class="input-agregar-wrapper">
+              <input *ngIf="agregandoCert" #inputCert class="badge-input"
+                     type="text"
+                     (keyup.enter)="agregarCertificacion(inputCert.value); inputCert.value=''"
+                     (blur)="cancelarAgregarCertificacion()"
+                     placeholder="Escribe y presiona Enter" />
+              <span class="btn-add" (click)="mostrarInputCertificacion()">+ Agregar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-buttons">
+        <button class="btn btn-green" type="submit">
+          {{ modoEdicion ? 'Actualizar oferta' : 'Crear oferta' }}
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

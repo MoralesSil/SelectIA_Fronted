@@ -1,0 +1,212 @@
+/* ======= Contenedor principal ======= */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #f7f9fb;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.cargar-container {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.cargar-container:hover {
+  transform: translateY(-3px);
+}
+
+h2 {
+  color: #1e293b;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* ======= Zona de carga (dropzone) ======= */
+.dropzone {
+  border: 2px dashed #94a3b8;
+  border-radius: 12px;
+  padding: 2rem;
+  cursor: pointer;
+  background-color: #f9fafb;
+  transition: all 0.3s ease;
+}
+
+.dropzone:hover {
+  border-color: #2563eb;
+  background-color: #f0f6ff;
+}
+
+.dropzone img {
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+.dropzone p {
+  margin: 0.5rem 0;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.dropzone .browse {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ======= Estado de carga ======= */
+.estado {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.estado.success {
+  color: #16a34a;
+}
+
+progress {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #e2e8f0;
+}
+
+progress::-webkit-progress-value {
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}
+
+/* ======= Archivo subido ======= */
+.archivo-subido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-top: 0.8rem;
+}
+
+.archivo-subido span {
+  color: #1e293b;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.archivo-subido button {
+  border: none;
+  background: transparent;
+  color: #dc2626;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.archivo-subido button:hover {
+  transform: scale(1.2);
+}
+
+/* ======= Botón principal ======= */
+.btn-subir {
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.btn-subir:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  transform: translateY(-1px);
+}
+
+.btn-subir:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* ======= Mensajes ======= */
+.mensaje {
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+
+.mensaje-ok {
+  background: #ecfdf5;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.mensaje-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+/* ======= Animaciones ======= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======= Responsivo ======= */
+@media (max-width: 480px) {
+  .cargar-container {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .dropzone {
+    padding: 1.2rem;
+  }
+}
+
+.btn-retroceder {
+  margin-top: 1.2rem;
+  background: transparent;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  border-radius: 8px;
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-retroceder:hover {
+  background: #2563eb;
+  color: #fff;
+}

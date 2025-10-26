@@ -1,0 +1,246 @@
+/* Contenedor general */
+.container {
+  padding-top: 6rem;
+}
+
+/* Título centrado */
+.Titulo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.Titulo-container h2 {
+  font-size: 2rem;
+  color: #0B4C28;
+  font-family: 'Lato', sans-serif;
+}
+
+/* Grid responsive para las tarjetas */
+.mis-postulaciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.mensaje-vacio {
+  grid-column: 1 / -1; /* Ocupar todas las columnas del grid */
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 5rem;
+}
+
+.icono {
+  font-size: 5rem;
+  animation: girar 1.5s linear infinite;
+  color: #0B4C28;
+}
+
+@keyframes girar {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tarjeta individual */
+.postulacion-card {
+  background-color: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInUp 0.5s ease forwards;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Lato', sans-serif;
+}
+
+.postulacion-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Animación */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cabecera con logo y título */
+.cabecera {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-empresa {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Título y botón info */
+.titulo-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+.titulo-puesto {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #0B4C28;
+  font-weight: bold;
+  flex: 1;
+}
+
+/* Ícono de info */
+.info-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #1976d2;
+  transition: transform 0.2s ease;
+  padding: 4px;
+  margin-left: auto;
+}
+
+.info-icon-btn:hover {
+  transform: scale(1.2);
+  color: #0B4C28;
+}
+
+.material-icons {
+  vertical-align: middle;
+  font-size: 1.5rem;
+}
+
+/* Empresa */
+.empresa {
+  color: #1976d2;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Línea de resumen */
+.detalle-resumen {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: #333;
+  gap: 0.5rem;
+}
+
+/* Descripción */
+.descripcion {
+  font-size: 0.75rem;
+  color: #555;
+  margin-top: 0.7rem;
+}
+
+/* Acciones: estado y postulado */
+.acciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.estado-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.estado-activo {
+  background-color: #4caf50;
+}
+
+.estado-inactivo {
+  background-color: #f44336;
+}
+
+.postulado {
+  background-color: #0B4C28;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* Tarjeta vacía (placeholder) para mantener las 3 columnas */
+.placeholder-card {
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+
+/* Pie de tarjeta */
+.footer-card {
+  text-align: right;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/*Paginador*/
+.paginador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.paginador button {
+  background-color: #0B4C28;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.paginador button:hover:not(:disabled) {
+  background-color: #0e6235;
+}
+
+.paginador button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.paginador button.activa {
+  background-color: #1976d2;
+}

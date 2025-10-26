@@ -1,0 +1,20 @@
+<section class="hero">
+  <h1>Tu Talento, Tu<br><span class="highlight">Oportunidad</span>, Nuestra IA</h1>
+  <p>Facilitamos la conexión entre puestos y personas con inteligencia artificial.</p>
+</section>
+
+<section class="secciones-container">
+  <div class="card" *ngFor="let s of secciones">
+    <div class="card-inner">
+      <div class="card-front">
+        <mat-icon class="icon">{{ s.icon }}</mat-icon>
+        <h3>{{ s.titulo }}</h3>
+        <p>{{ s.descripcion }}</p>
+      </div>
+      <div class="card-back">
+        <p>{{ s.detalle }}</p>
+        <button class="go-button" [routerLink]="[s.ruta]">Ir ahora</button>
+      </div>
+    </div>
+  </div>
+</section>

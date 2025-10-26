@@ -1,0 +1,54 @@
+<div class="detalle-container" *ngIf="oferta">
+  <!-- Columna principal -->
+  <section class="detalle-principal">
+    <div class="cabecera">
+      <img src="https://firebasestorage.googleapis.com/v0/b/selecia-1f368.firebasestorage.app/o/imagenes%2FCLINICAS-MAISON-DE-SANTE-app.jpg?alt=media&token=4c36658c-34cc-4eea-bbda-e0514de550e6" alt="Empresa" class="logo-empresa">
+      <div class="info">
+        <h2>{{ oferta.puestoDeTrabajo.titulo }}</h2>
+        <div class="empresa-ubicacion">
+          <p class="empresa">{{ oferta.puestoDeTrabajo.empresa || 'Clínica Maison de Santé' }}</p>
+          <div class="ubicacion">
+            <span class="linea-vertical"></span>
+            <span>{{ oferta.puestoDeTrabajo.distrito }}, {{ oferta.puestoDeTrabajo.departamento }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion">
+      <h3>Descripción</h3>
+      <p>{{ oferta.puestoDeTrabajo.descripcion }}</p>
+    </div>
+
+    <div class="boton-contenedor">
+      <button 
+        *ngIf="!yaPostulado"
+        class="btn-aplicar"
+        (click)="aplicarPuesto()"
+      >
+        Aplicar a Puesto
+      </button>
+
+      <button 
+        *ngIf="yaPostulado"
+        class="btn postulado"
+        disabled
+      >
+        Puesto Aplicado
+      </button>
+    </div>
+  </section>
+
+  <!-- Sidebar derecha -->
+  <aside class="sidebar">
+    <div class="card">
+      <h3>Detalles de Puesto</h3>
+      <ul>
+        <li>📍 {{ oferta.puestoDeTrabajo.modalidad }}</li>
+        <li>🕒 {{ oferta.puestoDeTrabajo.jornada }}</li>
+        <li>💰 {{ oferta.puestoDeTrabajo.salario | currency:'PEN' }}</li>
+        <li>👤 {{ oferta.vacantes }} vacante(s)</li>
+      </ul>
+    </div>
+  </aside>
+</div>

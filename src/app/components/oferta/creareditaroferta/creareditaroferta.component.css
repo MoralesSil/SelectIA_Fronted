@@ -1,0 +1,339 @@
+.wrapper {
+  width: 95%;
+  padding-top: 90px;
+  display: flex;
+  gap: 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  flex-direction: row;
+  background-color: #FFFFFF;
+  font-family: 'Lato', sans-serif;
+}
+
+.columna-izquierda {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.columna-derecha {
+  flex: 1.3;
+}
+
+.snackbar-success {
+  background: #43a047 !important;
+  color: white !important;
+}
+.snackbar-error {
+  background: #e53935 !important;
+  color: white !important;
+}
+
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 25px;
+  font-family: 'Lato', sans-serif;
+  color: #000;
+  font-weight: 600;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  margin-bottom: 2.5%;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #333333;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 0.5em 0.6em 0.5em 1em;
+  border: 1px solid #E5E5E5;
+  border-radius: 0.5em;
+  font-size: 0.8rem;
+  font-family: 'Lato', sans-serif;
+  background-color: #F2F2F2;
+  color: #808080;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.row .input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.badge {
+  font-family: 'Lato', sans-serif;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #036E33;
+  border: 1px solid #036E33;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.badge:hover {
+  background-color: #036E33;
+  color: white;
+}
+
+.badge.selected {
+  background-color: #036E33;
+  color: white;
+  font-weight: bold;
+}
+
+/* NUEVO: agrupación horizontal de input y botón */
+.input-agregar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/*badge agregar*/
+
+.badge-input {
+  font-family: 'Lato', sans-serif;
+  border-radius: 20px !important;
+  font-size: 14px;
+  background-color: transparent;
+  color: #036E33;
+  border: 1px solid #036E33;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 3.5px 10px !important;
+}
+
+.badge-input::placeholder {
+  color: #999;
+  border-radius: 20px;
+}
+
+.badge-input:focus {
+  background-color: white;
+  border-color: #036E33;
+}
+
+.btn-add {
+  font-family: 'Lato', sans-serif;
+  padding: 2.5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #036E33;
+  border: 1px solid #036E33;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  min-width: 90px;
+}
+
+.btn-add:hover {
+  background-color: #036E33;
+  color: white;
+}
+
+.selected {
+  background-color: #28a745;
+  color: white;
+}
+
+.footer-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  font-family: 'Lato', sans-serif;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-green {
+  background-color: #007f4f;
+  color: white;
+}
+
+.btn-gray {
+  background-color: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.required {
+  color: red;
+}
+
+.input-invalid input,
+.input-invalid textarea,
+.input-invalid .badge {
+  border: 1px solid red;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* -------- Estilos adicionales para salario con S/ y PEN -------- */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #E5E5E5;
+  border-radius: 0.5em;
+  background-color: #F2F2F2;
+  overflow: hidden;
+}
+
+.input-wrapper .prefix,
+.input-wrapper .suffix {
+  padding: 0.5em 0.75em;
+  background-color: #EDEDED;
+  font-weight: bold;
+  color: #333;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.input-wrapper .prefix {
+  border-right: 1px solid #E5E5E5;
+}
+
+.input-wrapper .suffix {
+  border-left: 1px solid #E5E5E5;
+}
+
+.input-wrapper .input-salario {
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  padding: 0.5em 0.6em;
+  font-size: 0.8rem;
+  font-family: 'Lato', sans-serif;
+  color: #808080;
+}
+
+/*select*/
+.input-group select {
+  width: 100%;
+  padding: 0.5em 0.6em 0.5em 1em;
+  border: 1px solid #E5E5E5;
+  border-radius: 0.5em;
+  font-size: 0.8rem;
+  font-family: 'Lato', sans-serif;
+  background-color: #F2F2F2;
+  color: #808080;
+  box-sizing: border-box;
+}
+
+.input-group select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/*icono candado*/
+.estatico {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: #F2F2F2;
+  height: 40px;
+  padding: 0 0.5em;
+  gap: 0.5em;
+  border-radius: 0.5em;
+  border: 1px solid #E5E5E5;
+  box-sizing: border-box;
+}
+
+.estatico input {
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  color: #808080;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  padding: 0.5em 0;
+}
+
+.estatico input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.estatico .suffix,
+.estatico mat-icon.suffix {
+  color: #808080;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/*remove*/
+.badge .remove-btn {
+  margin-left: 6px;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.badge .remove-btn:hover {
+  color: #013d26;
+}
+
+/* X por defecto cuando NO está seleccionado */
+.badge:not(.selected) .remove-btn {
+  color: #013d26;
+}
+
+/* X cuando está seleccionado */
+.badge.selected .remove-btn {
+  color: #ffffff;
+}

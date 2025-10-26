@@ -1,0 +1,504 @@
+/* Logo */
+.logo img {
+  height: 35px;
+}
+
+.logo-long {
+  display: block; /* Mostramos sólo logo largo en desktop */
+}
+
+.logo-small {
+  display: none; /* Oculto en desktop */
+}
+
+/* Barra de búsqueda */
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  margin: 0 2rem;
+  min-width: 0;
+  flex-wrap: nowrap; /* Evitar que inputs se envuelvan */
+}
+
+.input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #F2F2F2;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 4px 6px 5px rgba(0, 0, 0, 0.08);
+  width: 25%;
+  height: 43px;
+  min-width: 0;
+}
+
+.input-icon input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  color: #676666;
+  min-width: 0;
+}
+
+.input-icon .material-icons {
+  margin-left: 0.5rem;
+  color: #0B4C28;
+}
+
+.btn-search {
+  padding: 8px 20px;
+  margin-left: 10px;
+  background-color: #0B4C28;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-search:hover {
+  background-color: #0f5a31;
+}
+
+/*Reclutador*/
+.reclutador-menu {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  margin-left: 40px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+}
+
+.reclutador-menu a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.reclutador-menu a:hover {
+  color: #036E33; /* color al pasar el mouse */
+}
+
+.reclutador-menu a.active-link {
+  color: #036E33; /* color cuando está seleccionado */
+  font-weight: 600;
+}
+
+.reclutador-menu a.active-link::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #036E33;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  border-radius: 2px;
+}
+
+/*Usuario*/
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background-color: transparent;
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  height: 43px;
+}
+
+.profile-img {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.welcome-text {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  color: #9C9CA3;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 13px;
+  color: #0B4C28;
+}
+
+.btn-perfil{
+  background-color: transparent;
+  border: none;
+}
+
+.arrow-icon {
+  margin-top: 3px;
+  color: #0B4C28;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/*Menu desplegable de ver perfil y salir*/
+.user-dropdown {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  background-color: #FDFDFD;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.user-dropdown button {
+  padding: 10px 15px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+  color: #676666;
+  justify-content: space-between;
+  width: 100%; 
+}
+
+.user-dropdown button:hover {
+  background-color: #f0f0f0;
+}
+
+.user-dropdown .material-icons {
+  margin-left: 8px;
+  font-size: 17px;
+  color: #0B4C28;
+}
+
+/*Confirmación salir*/
+/* Fondo oscuro detrás del modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* Caja del modal */
+.custom-modal {
+  background: #fff;
+  padding: 24px 24px 16px;
+  border-radius: 4px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
+  font-family: 'Lato', sans-serif;
+}
+
+/* Título estilo mat-dialog-title */
+.modal-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0B4C28;
+  margin-bottom: 8px;
+}
+
+/* Contenido estilo mat-dialog-content */
+.modal-content {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+/* Acciones estilo mat-dialog-actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Botones con estilo angular material */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.custom-modal {
+  background: #FDFDFD;
+  padding: 24px 24px 16px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
+  font-family: 'Lato', sans-serif;
+  outline: none; /* elimina borde */
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600; /* Más gruesa */
+  color: #0B4C28;
+  margin-bottom: 8px;
+}
+
+.modal-content {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #676666;
+  margin-bottom: 24px;
+  border: none; /* elimina borde en algunos navegadores */
+  outline: none;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.mat-button {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  border: none;
+  background: none;
+  padding: 6px 16px;
+  border-radius: 8px; /* Aquí el cambio */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-btn {
+  color: #0B4C28;
+}
+
+.cancel-btn:hover {
+  background-color: rgba(11, 76, 40, 0.08);
+}
+
+.confirm-btn {
+  background-color: #0B4C28;
+  color: #fff;
+  font-weight: 600; /* Negrita para "Cerrar sesión" */
+}
+
+.confirm-btn:hover {
+  background-color: #094220;
+}
+
+
+
+/* Botones header */
+.header-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-outline, .btn-filled {
+  height: 43px;
+  width: 140px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  border: none;
+  box-shadow: 4px 6px 5px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.btn-outline {
+  background-color: #F2F2F2;
+  color: #1E402D;
+}
+
+.btn-filled {
+  background-color: #0B4C28;
+  color: #F2F2F2;
+}
+
+/*INPUT LUGAR*/
+.autocomplete-wrapper {
+  position: relative;
+  width: 25%;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 999;
+  padding: 0.5rem 0;
+}
+
+.autocomplete-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+  color: #676666;
+  transition: background 0.2s;
+  font-size: 14px;
+}
+
+.autocomplete-option:hover {
+  background-color: #F2F2F2;
+}
+
+.autocomplete-option .material-icons {
+  font-size: 17px;
+  color: #0B4C28;
+}
+
+.option-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.autocomplete-subtext {
+  font-size: 11px;
+  color: #A0A0A0;
+  margin-top: 2px;
+}
+
+/* Para quitar los puntitos feos */
+.autocomplete-dropdown div {
+  list-style: none;
+}
+
+/* Scrollbar opcional */
+.autocomplete-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem 0.8rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #ccc;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* -------- Responsive -------- */
+
+.mobile-only {
+  display: none;
+}
+
+.mobile-dropdown {
+  position: absolute;
+  right: 2rem;
+  top: 70px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  z-index: 1000;
+  width: 160px;
+}
+
+@media (max-width: 768px) {
+  /* Logo: ocultar largo y mostrar pequeño */
+  .logo-long {
+    display: none !important;
+  }
+  .logo-small {
+    display: block !important;
+    height: 35px;
+  }
+
+  /* Que no se envuelvan inputs */
+  .search-bar {
+    margin: 0 1rem;
+    flex-wrap: nowrap !important;  /* evitar que inputs se vayan uno abajo del otro */
+    gap: 0.5rem;
+  }
+
+  /* Puesto de trabajo ocupa todo el ancho */
+  .input-icon {
+    width: 100% !important;
+    min-width: 0;
+  }
+
+  /* Ocultar input lugar */
+  .autocomplete-wrapper {
+    display: none !important;
+  }
+
+  /* Reducir tamaño fuente inputs */
+  .input-icon input {
+    font-size: 14px;
+  }
+
+  /* Ocultar botones normales */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Mostrar icono menú */
+  .mobile-only {
+    display: block !important;
+    cursor: pointer;
+    font-size: 32px;
+    color: #0B4C28;
+  }
+
+  /* Ajustar padding header */
+  .header {
+    padding: 1rem 1rem 1rem 1rem;
+  }
+}
+
+.modal-login,
+.modal-register {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px); /* opcional para efecto de fondo */
+  background-color: rgba(0, 0, 0, 0.5); /* fondo oscuro semitransparente */
+  z-index: 1000; /* asegúrate que sea más alto que lo demás */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

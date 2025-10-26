@@ -1,0 +1,120 @@
+<div class="container-general">
+  <div class="mis-ofertas-container">
+
+    <!-- OFERTAS ACTIVAS -->
+    <section class="ofertas-recientes">
+      <h2>Ofertas Activas</h2>
+      <p *ngIf="ofertasActivas.length === 0">No hay ofertas activas.</p>
+
+      <div class="carousel-container" *ngIf="ofertasActivas.length > 0">
+        <button class="scroll-btn left" *ngIf="ofertasActivas.length > 3" (click)="scrollLeft('activas')">&#9664;</button>
+
+        <div class="carousel-track" #carouselActivas>
+          <div class="oferta-card" *ngFor="let oferta of ofertasActivas">
+            <div class="oferta-header">
+              <img src="https://firebasestorage.googleapis.com/v0/b/selecia-1f368.firebasestorage.app/o/imagenes%2FCLINICAS-MAISON-DE-SANTE-app.jpg?alt=media&token=4c36658c-34cc-4eea-bbda-e0514de550e6" alt="Logo Empresa" class="logo" />
+              <div class="oferta-info">
+                <h3>{{ oferta.puestoDeTrabajo.titulo }}</h3>
+                <div class="empresa-distrito">
+                  <span class="empresa">Clínica Maison de Santé</span>
+                  <span class="separador">|</span>
+                  <span class="distrito">{{ oferta.puestoDeTrabajo.distrito }}</span>
+                  <a
+                  class="btn-edit"
+                  [routerLink]="['/crearoferta','Ediciones', oferta.idOferta]"
+                  aria-label="Editar oferta"
+                  title="Editar oferta"
+                >
+                  <!-- Ícono lápiz en SVG (sin dependencias) -->
+                  <svg class="icon-pencil" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                    <path d="M3 17.25V21h3.75l11-11-3.75-3.75-11 11zM20.71 7.04a1.003 1.003 0 0 0 0-1.42L18.37 3.29a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z"></path>
+                  </svg>
+                  <span>Editar</span>
+                </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="oferta-detalles">
+              <div class="etiquetas">
+                <span>{{ extraerExperiencia(oferta.puestoDeTrabajo.requisitos) }}</span>
+                <span>{{ oferta.puestoDeTrabajo.modalidad }}</span>
+                <span>{{ oferta.puestoDeTrabajo.salario | currency:'PEN':'symbol':'1.0-0' }}</span>
+              </div>
+
+              <p class="descripcion">{{ oferta.puestoDeTrabajo.descripcion | slice:0:100 }}...</p>
+
+              <div class="oferta-footer">
+                <span class="fecha-cierre">Termina el {{ oferta.fechaCulminacion }}</span>
+                <button class="btn btn-ver" [routerLink]="['/dashboards', oferta.idOferta]">
+                  Ver Estadísticas
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="scroll-btn right" *ngIf="ofertasActivas.length > 3" (click)="scrollRight('activas')">&#9654;</button>
+      </div>
+    </section>
+
+    <!-- OFERTAS CULMINADAS -->
+    <section class="ofertas-recientes">
+      <h2>Ofertas Culminadas</h2>
+      <p *ngIf="ofertasCulminadas.length === 0">No hay ofertas culminadas.</p>
+
+      <div class="carousel-container" *ngIf="ofertasCulminadas.length > 0">
+        <button class="scroll-btn left" *ngIf="ofertasCulminadas.length > 3" (click)="scrollLeft('culminadas')">&#9664;</button>
+
+        <div class="carousel-track" #carouselCulminadas>
+          <div class="oferta-card" *ngFor="let oferta of ofertasCulminadas">
+            <div class="oferta-header">
+                <img src="https://citas.maisondesante.org.pe/assets/images/CMS_300.png" alt="Logo Empresa" class="logo" />
+                <div class="oferta-info">
+                  <h3>{{ oferta.puestoDeTrabajo.titulo }}</h3>
+                  <div class="empresa-distrito">
+                    <span class="empresa">Clínica Maison de Santé</span>
+                    <span class="separador">|</span>
+                    <span class="distrito">{{ oferta.puestoDeTrabajo.distrito }}</span>
+                  </div>
+                </div>
+
+                <!-- Botón Editar -->
+                <a
+                  class="btn-edit"
+                  [routerLink]="['/crearoferta','Ediciones', oferta.idOferta]"
+                  aria-label="Editar oferta"
+                  title="Editar oferta"
+                >
+                  <!-- Ícono lápiz en SVG (sin dependencias) -->
+                  <svg class="icon-pencil" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                    <path d="M3 17.25V21h3.75l11-11-3.75-3.75-11 11zM20.71 7.04a1.003 1.003 0 0 0 0-1.42L18.37 3.29a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z"></path>
+                  </svg>
+                  <span>Editar</span>
+                </a>
+              </div>
+
+            <div class="oferta-detalles">
+              <div class="etiquetas">
+                <span>{{ oferta.puestoDeTrabajo.experiencia}}</span>
+                <span>{{ oferta.puestoDeTrabajo.modalidad }}</span>
+                <span>{{ oferta.puestoDeTrabajo.salario | currency:'PEN':'symbol':'1.0-0' }}</span>
+              </div>
+
+              <p class="descripcion">{{ oferta.puestoDeTrabajo.descripcion | slice:0:100 }}...</p>
+
+              <div class="oferta-footer">
+                <span class="fecha-cierre">Terminó el {{ oferta.fechaCulminacion }}</span>
+                <button class="btn btn-ver" [routerLink]="['/dashboards', oferta.idOferta]">
+                  Ver Estadísticas
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="scroll-btn right" *ngIf="ofertasCulminadas.length > 3" (click)="scrollRight('culminadas')">&#9654;</button>
+      </div>
+    </section>
+  </div>
+</div>
