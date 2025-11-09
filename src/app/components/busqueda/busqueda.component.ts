@@ -165,9 +165,17 @@ export class BusquedaComponent implements OnInit {
   }
 
   postular(oferta: OfertaLaboral) {
-    this.estadoPostulacion[oferta.idOferta] = true;
-    this.router.navigate(['/busquedadetalle', oferta.idOferta])
+  if (!this.isLoggedIn) {
+    // Si no está logeado, lo manda al login
+    this.router.navigate(['/login']);
+    return;
   }
+
+  // Si está logeado, continúa con el flujo normal
+  this.estadoPostulacion[oferta.idOferta] = true;
+  this.router.navigate(['/busquedadetalle', oferta.idOferta]);
+}
+
 
   //limite de palabras titulo
   truncateWords(texto: string, limite: number = 10): string {

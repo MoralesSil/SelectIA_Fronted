@@ -67,11 +67,12 @@
           <div class="fila-5">
             <p class="fecha">Publicado el {{ oferta.fechaCreacion | date:'dd MMMM yyyy' }}</p>
               <button
-                *ngIf="isLoggedIn"
-                [disabled]="estadoPostulacion[oferta.idOferta]"
+                [disabled]="estadoPostulacion[oferta.idOferta] && isLoggedIn"
                 [ngClass]="{ 'postulado': estadoPostulacion[oferta.idOferta] }"
                 (click)="postular(oferta)">
-                {{ estadoPostulacion[oferta.idOferta] ? 'Postulado' : 'Postular' }}
+                {{ isLoggedIn
+                    ? (estadoPostulacion[oferta.idOferta] ? 'Postulado' : 'Postular')
+                    : 'Postular' }}
               </button>
           </div>
         </div>

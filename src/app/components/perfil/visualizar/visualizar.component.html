@@ -28,6 +28,11 @@
         Perfil de Postulante
       </button>
     </div>
+    <div class="btn-guardar-container">
+      <button class="btn-suspender" (click)="abrirModalSuspension()">
+        Suspender cuenta
+      </button>
+    </div>
   </div>
 
   <div class="info-box datos-personales">
@@ -50,19 +55,49 @@
 
 <div class="form-row">
   <div class="form-group half">
-    <label for="tipoDoc" class="label-dark">Tipo de documento</label>
-    <select id="tipoDoc" [(ngModel)]="usuario.tipodeDocuemnto" name="tipodeDocuemnto" class="input-blanco">
+    <label for="tipoDoc" class="label-dark">
+      Tipo de documento <span class="required">*</span>
+    </label>
+    <select
+      id="tipoDoc"
+      [(ngModel)]="usuario.tipodeDocuemnto"
+      name="tipodeDocuemnto"
+      class="input-blanco"
+      required
+      #tipoDocCtrl="ngModel"
+    >
       <option value="">Seleccione...</option>
       <option value="DNI">DNI</option>
       <option value="Carnet de Extranjería">Carnet de Extranjería</option>
       <option value="Pasaporte">Pasaporte</option>
     </select>
+    <small class="error"
+           *ngIf="tipoDocCtrl.invalid && (tipoDocCtrl.dirty || tipoDocCtrl.touched)">
+      El tipo de documento es obligatorio.
+    </small>
   </div>
+
   <div class="form-group half">
-    <label for="numDoc" class="label-dark">Número</label>
-    <input id="numDoc" type="text" [(ngModel)]="usuario.numeroDocumento" name="numeroDocumento" placeholder="12345678" class="input-blanco"/>
+    <label for="numDoc" class="label-dark">
+      Número <span class="required">*</span>
+    </label>
+    <input
+      id="numDoc"
+      type="text"
+      [(ngModel)]="usuario.numeroDocumento"
+      name="numeroDocumento"
+      placeholder="12345678"
+      class="input-blanco"
+      required
+      #numDocCtrl="ngModel"
+    />
+    <small class="error"
+           *ngIf="numDocCtrl.invalid && (numDocCtrl.dirty || numDocCtrl.touched)">
+      El número de documento es obligatorio.
+    </small>
   </div>
 </div>
+
 
 <div class="form-group">
   <label for="fechaNac" class="label-dark">Fecha de nacimiento</label>
@@ -319,3 +354,24 @@
     <iframe [src]="cvSanitizadoUrl" width="100%" height="600px"></iframe>
   </div>
 </div>
+
+<!-- Modal para suspender cuenta -->
+<div class="modal" *ngIf="mostrarModalSuspension">
+  <div class="modal-content modal-suspension">
+    <h3>Suspender cuenta</h3>
+    <p class="modal-texto">
+      Suspender tu cuenta es una acción irreversible. A partir de este momento no podrás volver a acceder con este usuario
+      ni recuperar la información asociada a la cuenta. ¿Deseas continuar con la suspensión?
+    </p>
+
+    <div class="modal-actions">
+      <button class="btn-modal btn-cancelar" (click)="cancelarSuspension()">
+        Cancelar
+      </button>
+      <button class="btn-modal btn-suspender-transparente" (click)="confirmarSuspension()">
+        Suspender
+      </button>
+    </div>
+  </div>
+</div>
+

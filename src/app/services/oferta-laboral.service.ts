@@ -33,6 +33,10 @@ export class OfertaLaboralService {
   eliminar(id: number): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);
   }
+  
+  actualizar(id: number, oferta: OfertaLaboral): Observable<any> {
+    return this.http.put(`${this.url}/${id}`, oferta);
+  }
 
   // Buscar ofertas laborales por estado (GET /estado/{estado})
   buscarPorEstado(estado: boolean): Observable<OfertaLaboral[]> {

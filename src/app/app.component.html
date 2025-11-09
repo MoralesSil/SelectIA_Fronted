@@ -54,6 +54,15 @@
       <span>¡Bienvenido!</span>
       <div class="user-name">{{ username }}</div>
     </div>
+      <button
+    class="btn-notify"
+    *ngIf="!isReclutador()"
+    [routerLink]="['/notificaciones']"
+    aria-label="Ver notificaciones"
+    title="Ver notificaciones"
+  >
+    <span class="material-icons">notifications</span>
+  </button>
     <button class="btn-perfil">
           <span class="material-icons arrow-icon" (click)="toggleUserMenu()">expand_more</span>
     </button>

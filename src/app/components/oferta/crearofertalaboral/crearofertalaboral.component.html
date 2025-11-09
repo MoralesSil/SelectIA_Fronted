@@ -1,44 +1,75 @@
 <div class="mis-ofertas-container">
- <div class="form-container">
-  <form [formGroup]="formularioOferta" (ngSubmit)="crearOferta()">
-    <div>
-      <label for="vacantes">Vacantes:</label>
-      <input id="vacantes" type="number" formControlName="vacantes" min="1" />
-      <div *ngIf="formularioOferta.controls['vacantes'].invalid && formularioOferta.controls['vacantes'].touched" class="error">
-        Ingresa un número de vacantes válido.
-      </div>
-    </div>
+  <div class="form-container">
+    <form [formGroup]="formularioOferta" (ngSubmit)="guardarOferta()">
 
-    <div>
-      <label for="puestoDeTrabajo">Puesto de Trabajo:</label>
-      <select id="puestoDeTrabajo" formControlName="puestoDeTrabajo">
-        <option value="">Seleccione un puesto</option>
-        <option *ngFor="let puesto of puestos" [value]="puesto.idPuesto">
-          {{ puesto.titulo }}
-        </option>
-      </select>
-      <div *ngIf="formularioOferta.controls['puestoDeTrabajo'].invalid && formularioOferta.controls['puestoDeTrabajo'].touched" class="error">
-        Selecciona un puesto de trabajo.
+      <!-- Mensaje general de validación -->
+      <div *ngIf="formSubmitted && formularioOferta.invalid" class="error error-general">
+        Por favor complete los campos obligatorios y corrija los datos inválidos.
       </div>
-    </div>
 
-    <div>
-  <label for="fechaCulminacion">Fecha de Culminación:</label>
-  <input id="fechaCulminacion" type="date" formControlName="fechaCulminacion" />
-  <div *ngIf="formularioOferta.controls['fechaCulminacion'].invalid && formularioOferta.controls['fechaCulminacion'].touched" class="error">
-    Selecciona una fecha de culminación.
+      <div>
+        <label for="vacantes">Vacantes:</label>
+        <input
+          id="vacantes"
+          type="number"
+          formControlName="vacantes"
+          min="1"
+        />
+        <div
+          *ngIf="formularioOferta.controls['vacantes'].invalid && formularioOferta.controls['vacantes'].touched"
+          class="error"
+        >
+          Ingresa un número de vacantes válido.
+        </div>
+      </div>
+
+      <div>
+        <label for="puestoDeTrabajo">Puesto de Trabajo:</label>
+        <select id="puestoDeTrabajo" formControlName="puestoDeTrabajo">
+          <option value="">Seleccione un puesto</option>
+          <option *ngFor="let puesto of puestos" [value]="puesto.idPuesto">
+            {{ puesto.titulo }}
+          </option>
+        </select>
+        <div
+          *ngIf="formularioOferta.controls['puestoDeTrabajo'].invalid && formularioOferta.controls['puestoDeTrabajo'].touched"
+          class="error"
+        >
+          Selecciona un puesto de trabajo.
+        </div>
+      </div>
+
+      <div>
+        <label for="fechaCulminacion">Fecha de Culminación:</label>
+        <input
+          id="fechaCulminacion"
+          type="date"
+          formControlName="fechaCulminacion"
+        />
+        <div
+          *ngIf="formularioOferta.controls['fechaCulminacion'].invalid && formularioOferta.controls['fechaCulminacion'].touched"
+          class="error"
+        >
+          Selecciona una fecha de culminación.
+        </div>
+      </div>
+
+      <!-- Campo ESTADO solo cuando se edita (cuando hay id en la ruta) -->
+      <div *ngIf="esEdicion">
+        <label for="estado">Estado de la oferta:</label>
+        <select id="estado" formControlName="estado">
+          <option [ngValue]="true">Activa</option>
+          <option [ngValue]="false">Cerrada</option>
+        </select>
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? (esEdicion ? 'Actualizando...' : 'Creando...') : (esEdicion ? 'Actualizar Oferta' : 'Crear Oferta') }}
+      </button>
+    </form>
+
+    <!-- Mensajes de resultado del backend -->
+    <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
+    <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
   </div>
 </div>
-
-
-    <button type="submit" [disabled]="formularioOferta.invalid || loading">
-      {{ loading ? 'Creando...' : 'Crear Oferta' }}
-    </button>
-  </form>
-
-  <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
-  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
- </div>
-
-</div>
-

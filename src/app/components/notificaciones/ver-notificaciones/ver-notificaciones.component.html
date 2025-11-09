@@ -1,0 +1,14 @@
+<div class="notificaciones-container">
+  <h1>Notificaciones</h1>
+
+  <div *ngIf="ofertasCerradas.length === 0">No hay notificaciones por ahora.</div>
+
+  <div *ngFor="let oferta of ofertasCerradas" class="notificacion-card">
+    <span class="material-icons icono-cerrada">notifications</span>
+    <div class="info">
+      <h3>{{ oferta.puestoDeTrabajo.titulo }}</h3>
+      <p>Esta oferta ha sido cerrada</p>
+      <p class="fecha">Fecha de cierre: {{ oferta.fechaCulminacion | date:'dd/MM/yyyy' }}</p>
+    </div>
+  </div>
+</div>

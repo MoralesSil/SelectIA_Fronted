@@ -376,3 +376,9 @@ mat-error {
     }
 }
 
+.btn-register[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #9ca3af !important; /* gris */
+  box-shadow: none;
+}

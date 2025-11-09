@@ -5,6 +5,7 @@ import { OfertaLaboralService } from '../../../services/oferta-laboral.service';
 import { PuestoDeTrabajoService } from '../../../services/puesto-de-trabajo.service';
 import { OfertaLaboral } from '../../../models/oferta-laboral';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-crearofertalaboral',
@@ -19,55 +20,122 @@ export class CrearofertalaboralComponent implements OnInit {
   loading = false;
   successMsg = '';
   errorMsg = '';
+  formSubmitted = false;
+
+  esEdicion = false;
+  ofertaId?: number;
 
   constructor(
     private fb: FormBuilder,
     private puestoService: PuestoDeTrabajoService,
-    private ofertaService: OfertaLaboralService
+    private ofertaService: OfertaLaboralService,
+    private route: ActivatedRoute
   ) {
     this.formularioOferta = this.fb.group({
       vacantes: [1, [Validators.required, Validators.min(1)]],
       puestoDeTrabajo: ['', Validators.required],
-      fechaCulminacion: ['', Validators.required], // <--- NUEVO
+      fechaCulminacion: ['', Validators.required],
+      estado: [true] // se usará solo cuando es edición (visible con *ngIf)
     });
-
   }
 
   ngOnInit(): void {
-    // Trae todos los puestos
+    // Cargar puestos
     this.puestoService.listar().subscribe({
-      next: (puestos) => this.puestos = puestos,
-      error: () => this.errorMsg = 'Error al cargar puestos de trabajo'
+      next: (puestos) => (this.puestos = puestos),
+      error: () => (this.errorMsg = 'Error al cargar puestos de trabajo')
+    });
+
+    // Ver si hay ID en la ruta (modo edición)
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.esEdicion = true;
+      this.ofertaId = +idParam;
+      this.cargarOferta(this.ofertaId);
+    }
+  }
+
+  private cargarOferta(id: number): void {
+    this.ofertaService.buscarPorId(id).subscribe({
+      next: (oferta) => {
+        // Convertir fecha a formato yyyy-MM-dd para el input date
+        const fecha = new Date(oferta.fechaCulminacion);
+        const fechaStr = fecha.toISOString().substring(0, 10);
+
+        this.formularioOferta.patchValue({
+          vacantes: oferta.vacantes,
+          puestoDeTrabajo: oferta.puestoDeTrabajo?.idPuesto,
+          fechaCulminacion: fechaStr,
+          estado: oferta.estado
+        });
+      },
+      error: () => {
+        this.errorMsg = 'Error al cargar la oferta.';
+      }
     });
   }
 
-  crearOferta(): void {
-    if (this.formularioOferta.invalid) return;
-
-    this.loading = true;
+  guardarOferta(): void {
+    this.formSubmitted = true;
     this.successMsg = '';
     this.errorMsg = '';
 
-    // Construir la oferta
+    if (this.formularioOferta.invalid) {
+      this.formularioOferta.markAllAsTouched();
+      return;
+    }
+
+    this.loading = true;
+
+    const formValue = this.formularioOferta.value;
     const oferta: OfertaLaboral = new OfertaLaboral();
-    oferta.vacantes = this.formularioOferta.value.vacantes;
-    oferta.puestoDeTrabajo.idPuesto = this.formularioOferta.value.puestoDeTrabajo; // Solo id
-    oferta.fechaCreacion = new Date();
-    oferta.estado = true;
-    oferta.perfilReclutador.idReclutador = 1; // fijo
-    oferta.fechaCulminacion = new Date(this.formularioOferta.value.fechaCulminacion); // <--- NUEVO
 
+    if (this.esEdicion && this.ofertaId) {
+      (oferta as any).idOferta = this.ofertaId;
+    }
 
-    this.ofertaService.insertar(oferta).subscribe({
-      next: () => {
-        this.successMsg = 'Oferta creada exitosamente.';
-        this.formularioOferta.reset();
-        this.loading = false;
-      },
-      error: () => {
-        this.errorMsg = 'Error al crear oferta.';
-        this.loading = false;
-      }
-    });
+    oferta.vacantes = formValue.vacantes;
+
+    oferta.puestoDeTrabajo = new PuestoDeTrabajo();
+    oferta.puestoDeTrabajo.idPuesto = formValue.puestoDeTrabajo;
+
+    oferta.fechaCreacion = new Date(); // si tu backend usa la original, puedes omitir o manejar aparte
+
+    // estado:
+    oferta.estado = this.esEdicion ? formValue.estado : true;
+
+    (oferta as any).perfilReclutador = { idReclutador: 1 };
+
+    oferta.fechaCulminacion = new Date(formValue.fechaCulminacion);
+
+    if (this.esEdicion && this.ofertaId) {
+      // ACTUALIZAR
+      this.ofertaService.actualizar(this.ofertaId, oferta).subscribe({
+        next: () => {
+          this.successMsg = 'Oferta actualizada exitosamente.';
+          this.loading = false;
+        },
+        error: () => {
+          this.errorMsg = 'Error al actualizar la oferta.';
+          this.loading = false;
+        }
+      });
+    } else {
+      // CREAR
+      this.ofertaService.insertar(oferta).subscribe({
+        next: () => {
+          this.successMsg = 'Oferta creada exitosamente.';
+          this.formularioOferta.reset();
+          // resetear a valores por defecto
+          this.formularioOferta.patchValue({ vacantes: 1, estado: true });
+          this.formSubmitted = false;
+          this.loading = false;
+        },
+        error: () => {
+          this.errorMsg = 'Error al crear oferta.';
+          this.loading = false;
+        }
+      });
+    }
   }
 }

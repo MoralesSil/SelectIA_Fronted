@@ -32,6 +32,7 @@ export class VisualizarComponent implements OnInit {
   cvSanitizadoUrl?: SafeResourceUrl;
   imagenFile: File | null = null;
   rol: string | null = null;
+  mostrarModalSuspension: boolean = false;
 
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -269,15 +270,34 @@ actualizarDatosPostulante() {
     // Si deseas notificar al backend, puedes agregar una llamada a usuarioService aquí
   }
 
-  async guardarCambios(): Promise<void> {
-  if (!this.usuario.idUsuario) {
-    this.snackbar.open('No se pudo identificar al usuario', 'Cerrar', {
-        duration: 3000,
-        panelClass: ['snackbar-error'],
-  });
+ async guardarCambios(): Promise<void> {
+  // Validar tipo y número de documento
+  if (!this.usuario.tipodeDocuemnto || this.usuario.tipodeDocuemnto.trim() === '') {
+    this.snackbar.open('El tipo de documento es obligatorio', 'Cerrar', {
+      duration: 3000,
+      panelClass: ['snackbar-error'],
+    });
     return;
   }
+
+  if (!this.usuario.numeroDocumento || this.usuario.numeroDocumento.toString().trim() === '') {
+    this.snackbar.open('El número de documento es obligatorio', 'Cerrar', {
+      duration: 3000,
+      panelClass: ['snackbar-error'],
+    });
+    return;
+  }
+
+  if (!this.usuario.idUsuario) {
+    this.snackbar.open('No se pudo identificar al usuario', 'Cerrar', {
+      duration: 3000,
+      panelClass: ['snackbar-error'],
+    });
+    return;
+  }
+
   console.log('Usuario que se enviará al backend:', this.usuario);
+
     if (this.imagenFile) {
     const username = this.loginService.showUsername();
     const imgRef = ref(this.storage, `imagenes/${username}`);
@@ -317,5 +337,48 @@ actualizarDatosPostulante() {
 subir(): void {
     this.router.navigate(['/perfil', 'Cargar']);
 }
+
+abrirModalSuspension(): void {
+  this.mostrarModalSuspension = true;
+}
+
+cancelarSuspension(): void {
+  this.mostrarModalSuspension = false;
+}
+
+confirmarSuspension(): void {
+  if (!this.usuario.idUsuario) {
+    this.snackbar.open('No se pudo identificar al usuario', 'Cerrar', {
+      duration: 3000,
+      panelClass: ['snackbar-error'],
+    });
+    return;
+  }
+
+  // Cambiar flags en el modelo
+  this.usuario.estado = false;
+  this.usuario.enabled = false;
+
+  this.usuarioService.actualizar(this.usuario.idUsuario, this.usuario).subscribe({
+    next: () => {
+      this.snackbar.open('Tu cuenta ha sido suspendida de forma permanente.', 'Cerrar', {
+        duration: 4000,
+        panelClass: ['snackbar-ok'],
+      });
+      this.mostrarModalSuspension = false;
+
+      this.loginService.logout();
+      this.router.navigate(['/login']);
+    },
+    error: (err) => {
+      console.error(err);
+      this.snackbar.open('Error al suspender la cuenta', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['snackbar-error'],
+      });
+    }
+  });
+}
+
 
 }

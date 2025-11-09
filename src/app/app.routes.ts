@@ -15,6 +15,7 @@ import { seguridadGuard } from './guard/seguridad.guard';
 import { CrearofertalaboralComponent } from './components/oferta/crearofertalaboral/crearofertalaboral.component';
 import { VisualizarPostulanteComponent } from './components/postulante/visualizar-postulante/visualizar-postulante.component';
 import { MispostulacionesComponent } from './components/mispostulaciones/mispostulaciones.component';
+import { VerNotificacionesComponent } from './components/notificaciones/ver-notificaciones/ver-notificaciones.component';
 
 export const routes: Routes = 
 [
@@ -49,7 +50,17 @@ export const routes: Routes =
         path: 'crearoferta2',
         component: CrearofertalaboralComponent,
         canActivate: [seguridadGuard],
-    },  
+    },
+    {
+    path: 'notificaciones',
+    component: VerNotificacionesComponent,
+    canActivate: [seguridadGuard],
+    },
+    {
+        path: 'crearoferta2/:id',
+        component: CrearofertalaboralComponent,
+        canActivate: [seguridadGuard],
+    },
     {
         path: 'crearoferta',
         component: CreareditarofertaComponent,

@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -9,8 +8,6 @@ import { JwtRequest } from '../../models/jwtRequest';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-//declare var grecaptcha: any;
 
 @Component({
   selector: 'app-login',
@@ -25,7 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit, AfterViewInit{
+export class LoginComponent implements OnInit, AfterViewInit {
   @Output() close = new EventEmitter<void>();
   @Output() loginExitoso = new EventEmitter<void>();
   @Output() solicitarRegistro = new EventEmitter<void>();
@@ -35,7 +32,9 @@ export class LoginComponent implements OnInit, AfterViewInit{
   mensaje: string = '';
   isPasswordVisible = false;
   showLoginModal = true;
-  //recaptchaWidgetId: number | null = null;
+
+  // 🔁 modo del switch: false = Postulante, true = Reclutador
+  isReclutadorMode = false;
 
   constructor(
     private loginService: LoginService,
@@ -45,58 +44,67 @@ export class LoginComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {}
 
-   ngAfterViewInit(): void {
-    // Espera a que grecaptcha esté disponible y renderiza el widget manualmente
-    /*if (typeof grecaptcha !== 'undefined') {
-      this.recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
-        sitekey: '6LdkcVcrAAAAAJw_du9WrsffXnARSYiBiGslv_dD'  // Reemplaza con tu clave pública
-      });
-    } else {
-      console.error('reCAPTCHA no está disponible. Verifica que el script fue cargado.');
-    }*/
+  ngAfterViewInit(): void {
+    // reCAPTCHA desactivado
   }
-  
+
+  get modoSeleccionado(): 'Postulante' | 'Reclutador' {
+    return this.isReclutadorMode ? 'Reclutador' : 'Postulante';
+  }
+
   closeLogin() {
     this.close.emit();
   }
 
+  private logout() {
+    sessionStorage.removeItem('token');
+    sessionStorage.clear();
+  }
+
   login() {
-    /*if (typeof grecaptcha === 'undefined' || this.recaptchaWidgetId === null) {
-      alert('reCAPTCHA no está disponible.');
-      return;
-    }
-
-    const captchaResponse = grecaptcha.getResponse(this.recaptchaWidgetId);
-    if (!captchaResponse) {
-      alert('Por favor verifica que no eres un robot.');
-      return;
-    }*/
-
     const request = new JwtRequest();
     request.username = this.username;
     request.password = this.password;
 
     this.loginService.login(request).subscribe(
       (data: any) => {
+        // Guardamos token inicialmente
         sessionStorage.setItem('token', data.jwttoken);
+
+        const rol = this.loginService.showRole(); // Rol real del usuario (JWT)
+        const modo = this.modoSeleccionado;       // Modo elegido en el switch
+
+        // Validar que el rol coincida con el modo
+        const coincide =
+          (rol === 'Reclutador' && modo === 'Reclutador') ||
+          (rol === 'Postulante' && modo === 'Postulante');
+
+        if (!coincide) {
+          // Limpiamos sesión y mostramos mensaje formal
+          this.logout();
+          this.snackBar.open(
+            `No puede iniciar sesión en el modo seleccionado (${modo}). Su perfil registrado es: ${rol}.`,
+            'Cerrar',
+            { duration: 4000 }
+          );
+          return;
+        }
+
+        // Si coincide, procedemos normalmente
         this.loginExitoso.emit();
         this.close.emit();
-        
-        const rol = this.loginService.showRole();
 
-          if (rol === 'Reclutador') {
-            this.router.navigate(['/home']);
-          } else if (rol === 'Postulante') {
-            this.router.navigate(['/busqueda']);
-          } else {
-            this.router.navigate(['/landing']); // o '/admin', si tienes una ruta especial
-          }
+        if (rol === 'Reclutador') {
+          this.router.navigate(['/home']);
+        } else if (rol === 'Postulante') {
+          this.router.navigate(['/busqueda']);
+        } else {
+          this.router.navigate(['/landing']);
+        }
       },
       (error) => {
-        this.mensaje = 'Credenciales incorrectas!!!';
+        this.mensaje = 'Credenciales incorrectas.';
         this.snackBar.open(this.mensaje, 'Cerrar', { duration: 2000 });
-        // Opcional: resetear el CAPTCHA
-        //grecaptcha.reset(this.recaptchaWidgetId!);
       }
     );
   }

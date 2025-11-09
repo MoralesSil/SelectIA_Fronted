@@ -46,5 +46,9 @@ export class LoginService {
     return decodedToken?.nombre ;
   }
 
+    logout() {
+    sessionStorage.removeItem('token');
+    sessionStorage.clear();
+  }
   
 }
